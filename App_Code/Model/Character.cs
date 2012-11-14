@@ -9,8 +9,8 @@ using System.Xml.Linq;
 /// </summary>
 public class Character
 {
-    private int id;
-    private string name;
+    private int _id;
+    private string _name;
 
 	public Character()
 	{
@@ -19,8 +19,8 @@ public class Character
 
     public Character(XContainer character)
     {
-        this.id = Convert.ToInt32(GetElementValue(character, "id"));
-        this.name = GetElementValue(character, "name");
+        ID = Convert.ToInt32(GetElementValue(character, "id"));
+        Name = GetElementValue(character, "name");
     }
 
     private static string GetElementValue(XContainer element, string name)
@@ -32,6 +32,32 @@ public class Character
 
     public override string ToString()
     {
-        return String.Format("{0} - {1}", this.id, this.name);
+        return String.Format("{0} - {1}", ID, Name);
     }
+
+	public int ID
+	{
+		get
+		{
+			return _id;
+		}
+
+		set
+		{
+			_id = value;
+		}
+	}
+
+	public string Name
+	{
+		get
+		{
+			return _name;
+		}
+
+		set
+		{
+			_name = value;
+		}
+	}
 }
