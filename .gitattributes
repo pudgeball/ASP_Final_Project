@@ -1,0 +1,2 @@
+*.mdf -crlf -diff -merge
+*.ldf -crlf -diff -merge
