@@ -30,7 +30,7 @@ public partial class NewBuild : System.Web.UI.Page
 		conn.Open();
 		SqlCommand cmd = new SqlCommand();
 		cmd.Connection = conn;
-		string sql = "SELECT Abilities.name, Abilities.description FROM [Abilities] INNER JOIN [CharactersAbilities] ON Abilities.name = CharactersAbilities.abilityName INNER JOIN [Characters] ON CharactersAbilities.characterId = Characters.id WHERE (Characters.id = " + listBox.Items[listBox.SelectedIndex].Value + ")";
+		string sql = "SELECT [Abilities].[name], [Abilities].[description] FROM [Abilities] INNER JOIN [CharactersAbilities] ON [Abilities].[name] = [CharactersAbilities].[abilityName] INNER JOIN [Characters] ON [CharactersAbilities].[characterId] = [Characters].[id] WHERE [Characters].[id] = " + listBox.Items[listBox.SelectedIndex].Value;
 		cmd.CommandText = sql;
 		SqlDataReader dr = cmd.ExecuteReader();
 
