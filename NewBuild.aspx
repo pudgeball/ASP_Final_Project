@@ -8,13 +8,9 @@
     <br />
     <br />
     <asp:Label ID="Label2" runat="server" Text="Character: "></asp:Label>
-&nbsp;<asp:DropDownList ID="characterSelect" runat="server" 
-        DataSourceID="SqlDataSource1" DataTextField="name" DataValueField="id" 
-        AutoPostBack="True">
+&nbsp;<asp:DropDownList ID="dropCharacter" runat="server" 
+        AutoPostBack="True" ViewStateMode="Enabled">
     </asp:DropDownList>
-    <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
-        ConnectionString="<%$ ConnectionStrings:connStr_LeagueOfLegends %>" 
-        SelectCommand="SELECT * FROM [characters]"></asp:SqlDataSource>
     <br />
     <asp:Label ID="lblLevelOne" runat="server" Text="Level 1: " Visible="False"></asp:Label>
 &nbsp;<asp:DropDownList ID="dropLevelOne" runat="server" Visible="False">

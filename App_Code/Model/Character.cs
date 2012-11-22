@@ -2,49 +2,54 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Xml.Linq;
 
-/// <summary>
-/// Summary description for Character
-/// </summary>
-public class Character
+namespace LeagueOfLegends.Model
 {
-    private int _id;
-    private string _name;
-
-	public Character()
+	public class Character
 	{
+		private int _id;
+		private string _name;
 
-	}
-
-    public override string ToString()
-    {
-        return String.Format("{0} - {1}", ID, Name);
-    }
-
-	public int ID
-	{
-		get
+		public int ID
 		{
-			return _id;
+			get
+			{
+				return _id;
+			}
+
+			set
+			{
+				_id = value;
+			}
 		}
 
-		set
+		public string Name
 		{
-			_id = value;
-		}
-	}
+			get
+			{
+				return _name;
+			}
 
-	public string Name
-	{
-		get
-		{
-			return _name;
+			set
+			{
+				_name = value;
+			}
 		}
 
-		set
+		public Character()
 		{
-			_name = value;
+
+		}
+
+		public Character(int id, string name)
+		{
+			ID = id;
+			Name = name;
+		}
+
+		public override string ToString()
+		{
+			return String.Format("{0} - {1}", ID, Name);
 		}
 	}
 }

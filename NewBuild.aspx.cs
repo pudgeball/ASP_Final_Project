@@ -7,26 +7,30 @@ using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Collections;
+using LeagueOfLegends;
 
 public partial class NewBuild : System.Web.UI.Page
 {
-	private List<Ability> abilities = new List<Ability>();
+	private int index;
 
     protected void Page_Load(object sender, EventArgs e)
     {
 		localhost.LeagueOfLegendsWebService leagueService = new localhost.LeagueOfLegendsWebService();
-		//ArrayList characters = leagueService.GetCharacters();
-		//foreach (localhost.Character chara in characters)
-		//{
-		//    Response.Write(chara.Name + " <br/>");
-		//}
+		List<localhost.Character> characters = leagueService.GetCharacters().ToList<localhost.Character>();
 
-        characterSelect.SelectedIndexChanged += new EventHandler(characterSelect_SelectedIndexChanged);
+        dropCharacter.SelectedIndexChanged += new EventHandler(characterSelect_SelectedIndexChanged);
 
 		if (Page.IsPostBack)
 		{
 			lblLevelOne.Visible = true;
 			dropLevelOne.Visible = true;
+		}
+		else
+		{
+			dropCharacter.DataSource = characters;
+			dropCharacter.DataTextField = "Name";
+			dropCharacter.DataValueField = "ID";
+			dropCharacter.DataBind();
 		}
     }
 
@@ -49,7 +53,7 @@ public partial class NewBuild : System.Web.UI.Page
 			{
 				string Name = dr["name"].ToString();
 				string Description = dr["description"].ToString();
-				abilities.Add(new Ability(Name, Description));
+				//abilities.Add(new Ability(Name, Description));
 			}
 		}
 		else
@@ -59,9 +63,10 @@ public partial class NewBuild : System.Web.UI.Page
 		dr.Close();
 		conn.Close();
 
-		Response.Write(abilities.Count);
-
-		dropLevelOne.DataSource = abilities;
+		//Response.Write(abilities.Count);
+		localhost.LeagueOfLegendsWebService leagueService = new localhost.LeagueOfLegendsWebService();
+		int id = Convert.ToInt32(listBox.Items[listBox.SelectedIndex].Value);
+		dropLevelOne.DataSource = leagueService.GetAbilities(id);
 		dropLevelOne.DataTextField = "Name";
 		dropLevelOne.DataValueField = "Name";
 		dropLevelOne.DataBind();

@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-/// <summary>
-/// Summary description for Ability
-/// </summary>
-public class Ability
+namespace LeagueOfLegends.Model
 {
-	public string Name { get; set; }
-	public string Description { get; set; }
-
-	public Ability(string name, string desc)
+	public class Ability
 	{
-		Name = name;
-		Description = desc;
+		public string Name { get; set; }
+		public string Description { get; set; }
+
+		public Ability()
+		{
+
+		}
+
+		public Ability(string name, string desc)
+		{
+			Name = name;
+			Description = desc;
+		}
 	}
 }
