@@ -30,15 +30,14 @@ namespace LeagueOfLegends
 		}
 
 		[WebMethod]
-		[XmlInclude(typeof(Character))]
 		public List<Character> GetCharacters()
 		{
 			List<Character> characters = new List<Character>();
 
-			conn.Open();
 			string sql = "SELECT * FROM [Characters]";
 			cmd.CommandText = sql;
 
+			conn.Open();
 			SqlDataReader dr = cmd.ExecuteReader();
 
 			if (dr.HasRows)
@@ -60,11 +59,11 @@ namespace LeagueOfLegends
 		public List<Ability> GetAbilities(int ID)
 		{
 			List<Ability> abilities = new List<Ability>();
-			string sql = "SELECT [Abilities].[name], [Abilities].[description] FROM [Abilities] INNER JOIN [CharactersAbilities] ON [Abilities].[name] = [CharactersAbilities].[abilityName] INNER JOIN [Characters] ON [CharactersAbilities].[characterId] = [Characters].[id] WHERE [Characters].[id] = " + ID;
 
-			conn.Open();
+			string sql = "SELECT [Abilities].[name], [Abilities].[description] FROM [Abilities] INNER JOIN [CharactersAbilities] ON [Abilities].[name] = [CharactersAbilities].[abilityName] INNER JOIN [Characters] ON [CharactersAbilities].[characterId] = [Characters].[id] WHERE [Characters].[id] = " + ID;
 			cmd.CommandText = sql;
 
+			conn.Open();
 			SqlDataReader dr = cmd.ExecuteReader();
 
 			if (dr.HasRows)
@@ -76,6 +75,9 @@ namespace LeagueOfLegends
 					abilities.Add(new Ability(Name, Description));
 				}
 			}
+			dr.Close();
+			conn.Close();
+
 			return abilities;
 		}
 	}
