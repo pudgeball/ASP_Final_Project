@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Collections;
 
 public partial class NewBuild : System.Web.UI.Page
 {
@@ -13,6 +14,13 @@ public partial class NewBuild : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+		localhost.LeagueOfLegendsWebService leagueService = new localhost.LeagueOfLegendsWebService();
+		ArrayList characters = leagueService.GetCharacters();
+		foreach (localhost.Character chara in characters)
+		{
+			Response.Write(chara.Name + " <br/>");
+		}
+
         characterSelect.SelectedIndexChanged += new EventHandler(characterSelect_SelectedIndexChanged);
 
 		if (Page.IsPostBack)
