@@ -17,19 +17,6 @@ public class Character
 
 	}
 
-    public Character(XContainer character)
-    {
-        ID = Convert.ToInt32(GetElementValue(character, "id"));
-        Name = GetElementValue(character, "name");
-    }
-
-    private static string GetElementValue(XContainer element, string name)
-    {
-        if ((element == null) || (element.Element(name) == null))
-            return String.Empty;
-        return element.Element(name).Value;
-    }
-
     public override string ToString()
     {
         return String.Format("{0} - {1}", ID, Name);
