@@ -45,6 +45,9 @@ public class LeagueOfLegendsWebService : System.Web.Services.WebService
 				characters.Add(newChar);
 			}
 		}
+		dr.Close();
+		conn.Close();
+
 		return characters;
 	}
 }
