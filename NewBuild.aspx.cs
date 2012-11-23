@@ -26,7 +26,7 @@ public partial class NewBuild : System.Web.UI.Page
 			dropCharacter.DataBind();
 
 			int id = Convert.ToInt32(dropCharacter.Items[dropCharacter.SelectedIndex].Value);
-			dropLevelOne.DataSource = webService.GetAbilities(id);
+			dropLevelOne.DataSource = webService.GetAbilitiesForCharacter(id);
 			dropLevelOne.DataTextField = "Name";
 			dropLevelOne.DataValueField = "Name";
 			dropLevelOne.DataBind();
@@ -38,7 +38,7 @@ public partial class NewBuild : System.Web.UI.Page
 		DropDownList listBox = (DropDownList)sender;
 		localhost.LeagueOfLegendsWebService leagueService = new localhost.LeagueOfLegendsWebService();
 		int id = Convert.ToInt32(listBox.Items[listBox.SelectedIndex].Value);
-		dropLevelOne.DataSource = leagueService.GetAbilities(id);
+		dropLevelOne.DataSource = leagueService.GetAbilitiesForCharacter(id);
 		dropLevelOne.DataTextField = "Name";
 		dropLevelOne.DataValueField = "Name";
 		dropLevelOne.DataBind();

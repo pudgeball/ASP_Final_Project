@@ -56,11 +56,11 @@ namespace LeagueOfLegends
 		}
 
 		[WebMethod]
-		public List<Ability> GetAbilities(int ID)
+		public List<Ability> GetAbilitiesForCharacter(int CharacterID)
 		{
 			List<Ability> abilities = new List<Ability>();
 
-			string sql = "SELECT [Abilities].[name], [Abilities].[description] FROM [Abilities] INNER JOIN [CharactersAbilities] ON [Abilities].[name] = [CharactersAbilities].[abilityName] INNER JOIN [Characters] ON [CharactersAbilities].[characterId] = [Characters].[id] WHERE [Characters].[id] = " + ID;
+			string sql = "SELECT [Abilities].* FROM [Abilities] INNER JOIN [CharactersAbilities] ON [Abilities].[name] = [CharactersAbilities].[abilityName] WHERE [CharactersAbilities].[characterID] = " + CharacterID;
 			cmd.CommandText = sql;
 
 			conn.Open();
@@ -70,15 +70,42 @@ namespace LeagueOfLegends
 			{
 				while (dr.Read())
 				{
-					string Name = dr["name"].ToString();
-					string Description = dr["description"].ToString();
-					abilities.Add(new Ability(Name, Description));
+					string name = dr["name"].ToString();
+					string description = dr["description"].ToString();
+					abilities.Add(new Ability(name, description));
 				}
 			}
 			dr.Close();
 			conn.Close();
 
 			return abilities;
+		}
+
+		[WebMethod]
+		public List<Item> GetItemsForBuild(int BuildID)
+		{
+			List<Item> items = new List<Item>();
+
+			string sql = "SELECT [Items].* FROM [Items] INNER JOIN [BuildsItems] ON [Items].name = [BuildsItems].itemName WHERE [BuildsItems].buildID = " + BuildID;
+			cmd.CommandText = sql;
+
+			conn.Open();
+			SqlDataReader dr = cmd.ExecuteReader();
+
+			if (dr.HasRows)
+			{
+				while (dr.Read())
+				{
+					string name = dr["name"].ToString();
+					double price = Convert.ToDouble(dr["price"]);
+					string description = dr["description"].ToString();
+					items.Add(new Item(name, price, description));
+				}
+			}
+			dr.Close();
+			conn.Close();
+
+			return items;
 		}
 	}
 }
