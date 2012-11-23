@@ -16,17 +16,17 @@ public partial class NewBuild : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
 		webService = new localhost.LeagueOfLegendsWebService();
-		List<localhost.Character> characters = webService.GetCharacters().ToList<localhost.Character>();
 
         dropCharacter.SelectedIndexChanged += new EventHandler(characterSelect_SelectedIndexChanged);
 		if (!Page.IsPostBack)
 		{
-			dropCharacter.DataSource = characters;
+			dropCharacter.DataSource = webService.GetCharacters();
 			dropCharacter.DataTextField = "Name";
 			dropCharacter.DataValueField = "ID";
 			dropCharacter.DataBind();
 
-			dropLevelOne.DataSource = webService.GetAbilities(0);
+			int id = Convert.ToInt32(dropCharacter.Items[dropCharacter.SelectedIndex].Value);
+			dropLevelOne.DataSource = webService.GetAbilities(id);
 			dropLevelOne.DataTextField = "Name";
 			dropLevelOne.DataValueField = "Name";
 			dropLevelOne.DataBind();
