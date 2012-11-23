@@ -15,7 +15,6 @@ public partial class NewBuild : System.Web.UI.Page
 	List<localhost.Item> buildItems = new List<localhost.Item>();
 	List<localhost.Item> allItems = new List<localhost.Item>();
 	List<localhost.Ability> abilties = new List<localhost.Ability>();
-	List<Label> abiltyLabels = new List<Label>();
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -32,40 +31,27 @@ public partial class NewBuild : System.Web.UI.Page
 
 			abilties = webService.GetAbilitiesForCharacter(id).ToList<localhost.Ability>();
 
-			for (int i = 0; i < 5; i++)
-			{
-				Label label = new Label();
-				label.Text = abilties[i].Name;
-				abiltyLabels.Add(label);
-			}
-
+			AddTableToPage(true);
 			bindListBoxs();
 
 			Session["allItems"] = allItems;
 			Session["buildItems"] = buildItems;
 			Session["abilties"] = abilties;
-			Session["abilityLabels"] = abiltyLabels;
 		}
 
-		placeholderAbilityTable.Controls.Add(CreateTables());
 		dropCharacter.SelectedIndexChanged += new EventHandler(characterSelect_SelectedIndexChanged);
+		
     }
 
     void characterSelect_SelectedIndexChanged(object sender, EventArgs e)
     {
 		DropDownList listBox = (DropDownList)sender;
 
-		abiltyLabels = (List<Label>)Session["abilityLabels"];
-
 		int id = Convert.ToInt32(listBox.Items[listBox.SelectedIndex].Value);
 		abilties = webService.GetAbilitiesForCharacter(id).ToList<localhost.Ability>();
+		Session["CharacterID"] = id;
 
-		for (int i = 0; i < abiltyLabels.Count; i++)
-		{
-			abiltyLabels[i].Text = abilties[i].Name;
-		}
-
-		Session["abilityLabels"] = abiltyLabels;
+		AddTableToPage(true);
     }
 
 	private void bindListBoxs()
@@ -87,11 +73,9 @@ public partial class NewBuild : System.Web.UI.Page
 		buildItems.Add(allItems[listAllItems.SelectedIndex]);
 		allItems.Remove(allItems[listAllItems.SelectedIndex]);
 
-		if (allItems.Count == 0)
-		{
-			cmdAdd.Enabled = false;
-		}
+		cmdAdd.Enabled = false;
 
+		AddTableToPage(false);
 		bindListBoxs();
 	}
 
@@ -103,24 +87,48 @@ public partial class NewBuild : System.Web.UI.Page
 		allItems.Add(buildItems[listBuildItems.SelectedIndex]);
 		buildItems.Remove(buildItems[listBuildItems.SelectedIndex]);
 
-		if (buildItems.Count == 0)
-		{
-			cmdRemove.Enabled = false;
-		}
+		cmdRemove.Enabled = false;
 
+		AddTableToPage(false);
 		bindListBoxs();
 	}
 
 	protected void cmdCreate_Click(object sender, EventArgs e)
 	{
+		Table abilityTable = (Table)Session["abilityTable"];
+		List<string> selectedAbilities = new List<string>();
+
+		for (int i = 2; i < abilityTable.Rows.Count; i++)
+		{
+			for (int j = 1; j < abilityTable.Rows[i].Cells.Count; j++)
+			{
+				if (abilityTable.Rows[i].Cells[j].Controls.Count > 0)
+				{
+					RadioButton radioButton = (RadioButton)abilityTable.Rows[i].Cells[j].Controls[0];
+					if (radioButton.Checked == true)
+					{
+						Response.Write("zomg");
+						selectedAbilities.Add(radioButton.ToolTip);
+					}
+				}
+			}
+		}
+
+		foreach (string s in selectedAbilities)
+		{
+			Response.Write(s + "<br/>");
+		}
+		AddTableToPage(false);
 	}
 
-	private Table CreateTables()
+	private Table CreateAbilityTable()
 	{
 		Table abilityTable = new Table();
 		abilityTable.BorderWidth = 1;
-		abiltyLabels = (List<Label>)Session["abilityLabels"];
-
+		int id = Convert.ToInt32(Session["CharacterID"]);
+		Response.Write("Current ID " + id);
+		abilties = webService.GetAbilitiesForCharacter(id).ToList<localhost.Ability>();
+		
 		for (int i = 0; i < 6; i++)
 		{
 			TableRow row = new TableRow();
@@ -141,7 +149,7 @@ public partial class NewBuild : System.Web.UI.Page
 					{
 						if (j == 0)
 						{
-							cell.Controls.Add(abiltyLabels[i - 1]);
+							cell.Text = abilties[i - 1].Name;
 						}
 						else if (j == 1)
 						{
@@ -159,13 +167,15 @@ public partial class NewBuild : System.Web.UI.Page
 						{
 							RadioButton radioButton = new RadioButton();
 							radioButton.GroupName = "Level" + j.ToString();
-
+							radioButton.ToolTip = abilties[i - 1].Name;
+							radioButton.AutoPostBack = true;
+							radioButton.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
 							cell.Controls.Add(radioButton);
 						}
 						else
 						{
-							
-							cell.Controls.Add(abiltyLabels[i-1]);
+
+							cell.Text = abilties[i - 1].Name;
 						}
 					}
 
@@ -180,12 +190,40 @@ public partial class NewBuild : System.Web.UI.Page
 
 		return abilityTable;
 	}
+
+	void radioButton_CheckedChanged(object sender, EventArgs e)
+	{
+		RadioButton radioButton = (RadioButton)sender;
+		Response.Write(radioButton.GroupName + " - " + radioButton.ToolTip);
+		AddTableToPage(false);
+	}
+
+	private void AddTableToPage(bool NewCharacter)
+	{
+		Table abilityTable;
+
+		if (NewCharacter)
+		{
+			abilityTable = CreateAbilityTable();
+			
+			Session["abilityTable"] = abilityTable;
+		}
+		else
+		{
+			abilityTable = (Table)Session["abilityTable"];
+		}
+
+		placeholderAbilityTable.Controls.Add(abilityTable);
+	}
+
 	protected void listAllItems_SelectedIndexChanged(object sender, EventArgs e)
 	{
+		AddTableToPage(false);
 		cmdAdd.Enabled = true;
 	}
 	protected void listBuildItems_SelectedIndexChanged(object sender, EventArgs e)
 	{
+		AddTableToPage(false);
 		cmdRemove.Enabled = true;
 	}
 }
