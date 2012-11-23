@@ -35,7 +35,7 @@ public partial class NewBuild : System.Web.UI.Page
 
     void characterSelect_SelectedIndexChanged(object sender, EventArgs e)
     {
-
+		DropDownList listBox = (DropDownList)sender;
 		localhost.LeagueOfLegendsWebService leagueService = new localhost.LeagueOfLegendsWebService();
 		int id = Convert.ToInt32(listBox.Items[listBox.SelectedIndex].Value);
 		dropLevelOne.DataSource = leagueService.GetAbilities(id);
