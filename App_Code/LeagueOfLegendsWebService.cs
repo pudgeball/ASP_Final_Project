@@ -82,6 +82,33 @@ namespace LeagueOfLegends
 		}
 
 		[WebMethod]
+		public List<Item> GetItems()
+		{
+			List<Item> items = new List<Item>();
+
+			string sql = "SELECT * FROM [Items]";
+			cmd.CommandText = sql;
+
+			conn.Open();
+			SqlDataReader dr = cmd.ExecuteReader();
+
+			if (dr.HasRows)
+			{
+				while (dr.Read())
+				{
+					string name = dr["name"].ToString();
+					double price = Convert.ToDouble(dr["price"]);
+					string description = dr["description"].ToString();
+					items.Add(new Item(name, price, description));
+				}
+			}
+			dr.Close();
+			conn.Close();
+
+			return items;
+		}
+
+		[WebMethod]
 		public List<Item> GetItemsForBuild(int BuildID)
 		{
 			List<Item> items = new List<Item>();
