@@ -4,14 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using LeagueOfLegends.Model;
+using System.Web.UI.HtmlControls;
+using localhost;
 
 public partial class TierList : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        localhost.LeagueOfLegendsWebService webService = new localhost.LeagueOfLegendsWebService();
-        List<localhost.Character> characters = webService.GetCharacters().ToList<localhost.Character>();
+        LeagueOfLegendsWebService webService = new LeagueOfLegendsWebService();
+        List<Character> characters = webService.GetCharacters().ToList<Character>();
         
         for (int i = 0; i < characters.Count; i++)
         {
@@ -20,7 +21,14 @@ public partial class TierList : System.Web.UI.Page
             int tierPosition;
             //get tierPosition ... webService.GetTierPosition(characterID);
 
-            string imagePath = "<img src=\"Images/" + characterName + ".png\"></img>";
+            HtmlGenericControl listItem = new HtmlGenericControl("li");
+            Image image = new Image();
+            image.ImageUrl = "Images/" + characterName + ".png";
+
+
+            //string imagePath = "<img src=\"Images/" + characterName + ".png\"></img>";
+
+            tierListPlaceholder.Controls.Add(image);
         }
 
     }
