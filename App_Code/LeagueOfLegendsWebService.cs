@@ -81,6 +81,31 @@ namespace LeagueOfLegends
 			return abilities;
 		}
 
+        [WebMethod]
+        public int GetVotesForCharacter(int CharacterID)
+        {
+            string sql = "SELECT [votes] FROM [Characters] INNER JOIN [CharacterVotes] ON [Characters].[id] = [CharacterVotes].[characterID] WHERE [CharacterVotes].[characterID] = " + CharacterID;
+            cmd.CommandText = sql;
+
+            conn.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            int votes;
+
+            if (dr.Read())
+            {
+                votes = Convert.ToInt32(dr["votes"]);
+            }
+            else
+            {
+                votes = -1;
+            }
+    
+            dr.Close();
+            conn.Close();
+
+            return votes;
+        }
+
 		[WebMethod]
 		public List<Item> GetItems()
 		{

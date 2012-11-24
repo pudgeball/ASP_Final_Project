@@ -17,7 +17,7 @@ public partial class TierList : System.Web.UI.Page
         for (int i = 0; i < characters.Count; i++)
         {
             string characterName = characters[i].Name.ToLower();
-            string characterID = characters[i].ID.ToString();
+            int characterID = characters[i].ID;
             int tierPosition;
             //get tierPosition ... webService.GetTierPosition(characterID);
 
@@ -25,8 +25,10 @@ public partial class TierList : System.Web.UI.Page
             Image image = new Image();
             image.ImageUrl = "Images/" + characterName + ".png";
 
-
             //string imagePath = "<img src=\"Images/" + characterName + ".png\"></img>";
+            string votes = webService.GetVotesForCharacter(characterID).ToString();
+
+            Response.Write(characterName + " has " + votes + " votes<br/>");
 
             tierListPlaceholder.Controls.Add(image);
         }
