@@ -12,16 +12,17 @@
     </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="pageContent" Runat="Server">
     <asp:Label ID="Label1" runat="server" Text="Build Name: "></asp:Label>
-    <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+    <asp:TextBox ID="txtBuildName" runat="server"></asp:TextBox>
+    <br />
+    <br />
+    <asp:Label ID="Label28" runat="server" Text="Username: "></asp:Label>
+    <asp:TextBox ID="txtUsername" runat="server"></asp:TextBox>
     <br />
     <br />
     <asp:Label ID="Label2" runat="server" Text="Character: "></asp:Label>
 &nbsp;<asp:DropDownList ID="dropCharacter" runat="server" 
         AutoPostBack="True">
     </asp:DropDownList>
-    <br />
-&nbsp;<br />
-    <asp:PlaceHolder ID="placeholderAbilityTable" runat="server"></asp:PlaceHolder>
     <br />
     <br />
     <table class="style1">
@@ -197,6 +198,9 @@
     <asp:ListBox ID="listBuildItems" runat="server" AutoPostBack="True" 
         onselectedindexchanged="listBuildItems_SelectedIndexChanged"></asp:ListBox>
     <br />
+    <br />
+    <br />
+    <asp:Label ID="lblError" runat="server"></asp:Label>
     <br />
     <br />
     <asp:Button ID="cmdCreate" runat="server" Text="Create Build" 

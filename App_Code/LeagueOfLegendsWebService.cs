@@ -134,5 +134,48 @@ namespace LeagueOfLegends
 
 			return items;
 		}
+
+		[WebMethod]
+		public void CreateBuild(string BuildName, string UserName, int CharacterID, List<Ability> abilities, List<Item> items)
+		{
+			string sql = "SELECT COUNT(*) AS Builds FROM [Builds]";
+			cmd.CommandText = sql;
+			conn.Open();
+			SqlDataReader dr = cmd.ExecuteReader();
+			int builds = -1;
+			if (dr.HasRows)
+			{
+				while(dr.Read())
+				{
+					builds = Convert.ToInt32(dr["Builds"]);
+				}
+			}
+			dr.Close();
+
+			sql = "INSERT INTO [Builds] ([id], [name], [userName]) VALUES(" + builds + ", '" + BuildName + "', '" + UserName + "')";
+			cmd.CommandText = sql;
+			cmd.ExecuteNonQuery();
+
+			sql = "INSERT INTO [BuildsCharacters] ([buildID], [characterID]) VALUES(" + builds + ", " + CharacterID + ")";
+			cmd.CommandText = sql;
+			cmd.ExecuteNonQuery();
+
+			for (int i = 0; i < abilities.Count; i++)
+			{
+				Ability ability = abilities[i];
+				sql = "INSERT INTO [BuildsAbilities] ([buildID], [abilityName], [abilityLevel]) VALUES(" + builds + ", '" + ability.Name + "', " + (i+1) + ")";
+				cmd.CommandText = sql;
+				cmd.ExecuteNonQuery();
+			}
+
+			foreach (Item item in items)
+			{
+				sql = "INSERT INTO [BuildsItems] ([buildID], [itemName]) VALUES(" + builds + ", '" + item.Name + "')";
+				cmd.CommandText = sql;
+				cmd.ExecuteNonQuery();
+			}
+
+			conn.Close();
+		}
 	}
 }
