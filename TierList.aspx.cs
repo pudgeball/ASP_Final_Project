@@ -12,7 +12,7 @@ public partial class TierList : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         LeagueOfLegendsWebService webService = new LeagueOfLegendsWebService();
-        List<Character> characters = webService.GetCharacters().ToList<Character>();
+        List<Character> characters = webService.GetCharactersOrderedByVote().ToList<Character>();
         
         for (int i = 0; i < characters.Count; i++)
         {

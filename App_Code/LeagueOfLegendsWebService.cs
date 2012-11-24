@@ -106,6 +106,30 @@ namespace LeagueOfLegends
             return votes;
         }
 
+        [WebMethod]
+        public List<Character> GetCharactersOrderedByVote()
+        {
+            List<Character> characters = new List<Character>();
+
+            string sql = "SELECT * FROM [Characters] INNER JOIN [CharacterVotes] ON [Characters].[id] = [CharacterVotes].[characterID] ORDER BY [votes] DESC";
+            cmd.CommandText = sql;
+
+            conn.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                int id = Convert.ToInt32(dr["id"]);
+                string name = dr["name"].ToString();
+                characters.Add(new Character(id, name));
+            }
+
+            dr.Close();
+            conn.Close();
+
+            return characters;
+        }
+
 		[WebMethod]
 		public List<Item> GetItems()
 		{
