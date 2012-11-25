@@ -69,7 +69,7 @@
         {
             margin-left: 50px;
             display: inline-block;
-            background-color: #2A2A2A;
+            background-color: #1A1A1A;
             border: 1px solid black;
             box-shadow: 1px 1px 3px black;
         }
@@ -84,7 +84,7 @@
         {
             margin-left: 50px;
             display: inline-block;
-            background-color: #2A2A2A;
+            background-color: #1A1A1A;
             border: 1px solid black;
             box-shadow: 1px 1px 3px black;
         }
