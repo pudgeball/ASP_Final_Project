@@ -6,32 +6,145 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using localhost;
+using System.Collections.Specialized;
 
 public partial class TierList : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
         LeagueOfLegendsWebService webService = new LeagueOfLegendsWebService();
-        List<Character> characters = webService.GetCharactersOrderedByVote().ToList<Character>();
         
-        for (int i = 0; i < characters.Count; i++)
+        NameValueCollection qs = Request.QueryString;
+        string qsCharacterID = qs.Get("characterID");
+        string qsVoteType = qs.Get("voteType");
+        int characterCount = webService.GetCharacters().Count();
+
+        //for (int i = 0; i < characterCount; i++)
+        //{
+        //    Response.Write(webService.GetCharacters()[i].Name + ": " + Session["vote" + i] + "<br/>");
+        //}
+
+        try
         {
-            string characterName = characters[i].Name.ToLower();
-            int characterID = characters[i].ID;
-            int tierPosition;
-            //get tierPosition ... webService.GetTierPosition(characterID);
+            if (qsCharacterID != null && qsVoteType != null && Convert.ToInt32(qsCharacterID) < characterCount)
+            {
+                if (Session["vote" + qsCharacterID] == null)
+                {
+                    switch (qsVoteType)
+                    {
+                        case "upvote":
+                            webService.EnterVote(Convert.ToInt32(qsCharacterID), 1);
+                            break;
+                        case "downvote":
+                            webService.EnterVote(Convert.ToInt32(qsCharacterID), -1);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    string previousVote = Session["vote" + qsCharacterID].ToString();
 
-            HtmlGenericControl listItem = new HtmlGenericControl("li");
-            Image image = new Image();
-            image.ImageUrl = "Images/" + characterName + ".png";
+                    switch (qsVoteType)
+                    {
+                        case "upvote":
+                            if (!previousVote.Equals(qsVoteType))
+                            {
+                                webService.EnterVote(Convert.ToInt32(qsCharacterID), 2);
+                            }
+                            break;
+                        case "downvote":
+                            if (!previousVote.Equals(qsVoteType))
+                            {
+                                webService.EnterVote(Convert.ToInt32(qsCharacterID), -2);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
 
-            //string imagePath = "<img src=\"Images/" + characterName + ".png\"></img>";
-            string votes = webService.GetVotesForCharacter(characterID).ToString();
-
-            Response.Write(characterName + " has " + votes + " votes<br/>");
-
-            tierListPlaceholder.Controls.Add(image);
+                Session["vote" + qsCharacterID] = qsVoteType;
+                Response.Redirect("TierList.aspx");
+            }
+        }
+        catch (Exception ex)
+        {
+            Response.Redirect("TierList.aspx");
         }
 
+        List<Character> characters = webService.GetCharactersOrderedByVote().ToList<Character>();
+        
+        // This ordered list will hold the tier list. It will be placed into the placeholder at the end.
+        HtmlGenericControl orderedList = new HtmlGenericControl("ol");
+        orderedList.ID = "orderedListControl";
+
+        for (int i = 0; i < characters.Count; i++)
+        {
+            string characterName = characters[i].Name;
+            int characterID = characters[i].ID;
+            string votes = webService.GetVotesForCharacter(characterID).ToString();
+
+            Image characterImage = new Image();
+            characterImage.ImageUrl = "Images/" + characterName.ToLower() + ".png";
+
+            Image plusImage = new Image();
+            plusImage.ImageUrl = "Images/plus.png";
+
+            Image minusImage = new Image();
+            minusImage.ImageUrl = "Images/minus.png";
+
+            HtmlGenericControl listItem = new HtmlGenericControl("li");
+            HtmlGenericControl voteControl = new HtmlGenericControl();
+            HtmlGenericControl voteNumber = new HtmlGenericControl();
+            HyperLink upvote = new HyperLink();
+            HyperLink downvote = new HyperLink();
+
+            if (Session["vote" + characterID] != null)
+            {
+                if (Session["vote" + characterID].Equals("upvote"))
+                {
+                    upvote.CssClass = "selected";
+                }
+                else if (Session["vote" + characterID].Equals("downvote"))
+                {
+                    downvote.CssClass = "selected";
+                }
+            }
+            
+            // Assign neccessary Controls an ID so they may be styled through css
+            listItem.ID = "listItem";
+            voteControl.ID = "voteControl";
+            upvote.ID = "upvote";
+            downvote.ID = "downvote";
+            voteNumber.ID = "voteNumber";
+
+            // Populate up/downvote Controls
+            upvote.Text = "+";
+            upvote.NavigateUrl = "TierList.aspx?characterID=" + characterID + "&voteType=upvote";
+            upvote.Controls.Add(plusImage);
+            downvote.Text = "-";
+            downvote.NavigateUrl = "TierList.aspx?characterID=" + characterID + "&voteType=downvote";
+            downvote.Controls.Add(minusImage);
+
+            // Populate the voteNumber control with the vote number
+            voteNumber.InnerText = votes + " points";
+
+            // Add HyperLink controls into voteControl
+            voteControl.Controls.Add(upvote);
+            voteControl.Controls.Add(downvote);
+
+            // Add controls, in order, into listItem
+            listItem.Controls.Add(characterImage);
+            listItem.Controls.Add(voteControl);
+            listItem.Controls.Add(voteNumber);
+
+            // Add the listItem into the orderedList
+            orderedList.Controls.Add(listItem);
+        }
+
+        tierListPlaceholder.Controls.Add(orderedList);
     }
+
 }

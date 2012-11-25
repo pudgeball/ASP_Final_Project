@@ -130,6 +130,17 @@ namespace LeagueOfLegends
             return characters;
         }
 
+        [WebMethod]
+        public void EnterVote(int CharacterID, int VoteValue)
+        {
+            string sql = "UPDATE [CharacterVotes] SET [votes] = [votes] + " + VoteValue + " WHERE [CharacterVotes].[characterID] = " + CharacterID;
+            cmd.CommandText = sql;
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
 		[WebMethod]
 		public List<Item> GetItems()
 		{
