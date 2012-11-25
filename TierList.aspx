@@ -7,7 +7,7 @@
             list-style-type: none;
             padding: 0px;
             margin: 0 auto;
-            width: 500px;
+            width: 600px;
         }
         
         #pageContent_listItem
@@ -16,15 +16,47 @@
             margin-bottom: 10px;
             height: 120px;
             border: 1px solid black;
+            clear: both;
+        }
+        
+        #pageContent_rankContainer
+        {
+            margin-top: 30px;
+            width: 100px;
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            float: left;
+            color: #EACE41;
+        }
+        
+        #pageContent_masterContainer
+        {
+            float: left;
+            width: 378px;
+            height: 120px;
+            background-color: #2A2A2A;
+        }
+        
+        #pageContent_voteControlAndVoteNumberContainer
+        {
+            margin-top: 17px;
+        }
+        
+        #pageContent_characterNameContainer
+        {
+            background-color: #3A3A3A;
+            color: #EACE41;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 5px 0px;
+            border-bottom: 1px solid black;
         }
         
         #pageContent_voteControl
         {
-            vertical-align: top;
-            /*background-color: Red;*/
-            display: inline-block;
-            height: 120px;
-            width: 210px;
+            float: left;
         }
         
         #pageContent_voteControl a
@@ -35,12 +67,8 @@
         
         #pageContent_upvote
         {
-            margin-top: 35px;
             margin-left: 50px;
-            width: 50px;
-            height: 50px;
             display: inline-block;
-            text-align: center;
             background-color: #2A2A2A;
             border: 1px solid black;
             box-shadow: 1px 1px 3px black;
@@ -55,10 +83,7 @@
         #pageContent_downvote
         {
             margin-left: 50px;
-            width: 50px;
-            height: 50px;
             display: inline-block;
-            text-align: center;
             background-color: #2A2A2A;
             border: 1px solid black;
             box-shadow: 1px 1px 3px black;
@@ -72,11 +97,14 @@
         
         #pageContent_voteNumber
         {
-            margin-top: 50px;
+            margin-top: 15px;
             margin-left: 50px;
-            vertical-align: top;
-            display: inline-block;
-            height: 120px;
+            float: left;
+        }
+        
+        #pageContent_listItem img
+        {
+            float:left;
         }
         
         .selected

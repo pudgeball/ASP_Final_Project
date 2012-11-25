@@ -96,55 +96,80 @@ public partial class TierList : System.Web.UI.Page
             minusImage.ImageUrl = "Images/minus.png";
 
             HtmlGenericControl listItem = new HtmlGenericControl("li");
-            HtmlGenericControl voteControl = new HtmlGenericControl();
-            HtmlGenericControl voteNumber = new HtmlGenericControl();
+            HtmlGenericControl rankContainer = new HtmlGenericControl("div");
+            HtmlGenericControl masterContainer = new HtmlGenericControl("div");
+            HtmlGenericControl voteControlAndVoteNumberContainer = new HtmlGenericControl("div");
+            HtmlGenericControl characterNameContainer = new HtmlGenericControl("div");
+            HtmlGenericControl voteControl = new HtmlGenericControl("div");
+            HtmlGenericControl voteNumber = new HtmlGenericControl("div");
             HyperLink upvote = new HyperLink();
             HyperLink downvote = new HyperLink();
 
-            if (Session["vote" + characterID] != null)
-            {
-                if (Session["vote" + characterID].Equals("upvote"))
-                {
-                    upvote.CssClass = "selected";
-                }
-                else if (Session["vote" + characterID].Equals("downvote"))
-                {
-                    downvote.CssClass = "selected";
-                }
-            }
-            
             // Assign neccessary Controls an ID so they may be styled through css
             listItem.ID = "listItem";
+            rankContainer.ID = "rankContainer";
+            masterContainer.ID = "masterContainer";
+            voteControlAndVoteNumberContainer.ID = "voteControlAndVoteNumberContainer";
+            characterNameContainer.ID = "characterNameContainer";
             voteControl.ID = "voteControl";
+            voteNumber.ID = "voteNumber";
             upvote.ID = "upvote";
             downvote.ID = "downvote";
-            voteNumber.ID = "voteNumber";
+
+            HighlightSelectedVoteButton(upvote, downvote, characterID);
 
             // Populate up/downvote Controls
-            upvote.Text = "+";
             upvote.NavigateUrl = "TierList.aspx?characterID=" + characterID + "&voteType=upvote";
             upvote.Controls.Add(plusImage);
-            downvote.Text = "-";
             downvote.NavigateUrl = "TierList.aspx?characterID=" + characterID + "&voteType=downvote";
             downvote.Controls.Add(minusImage);
 
             // Populate the voteNumber control with the vote number
             voteNumber.InnerText = votes + " points";
 
+            // Populate the rankContainer with the rank number
+            rankContainer.InnerText = (i + 1).ToString();
+
+            // Populate the characterNameContainer with name
+            characterNameContainer.InnerText = characterName;
+
             // Add HyperLink controls into voteControl
             voteControl.Controls.Add(upvote);
             voteControl.Controls.Add(downvote);
 
+            // Add controls, in order, into voteControlAndVoteNumberContainer
+            voteControlAndVoteNumberContainer.Controls.Add(voteControl);
+            voteControlAndVoteNumberContainer.Controls.Add(voteNumber);
+
+            // Add controls, in order, into masterContainer
+            masterContainer.Controls.Add(characterNameContainer);
+            masterContainer.Controls.Add(voteControlAndVoteNumberContainer);
+
             // Add controls, in order, into listItem
+            listItem.Controls.Add(rankContainer);
             listItem.Controls.Add(characterImage);
-            listItem.Controls.Add(voteControl);
-            listItem.Controls.Add(voteNumber);
+            listItem.Controls.Add(masterContainer);
 
             // Add the listItem into the orderedList
             orderedList.Controls.Add(listItem);
         }
 
         tierListPlaceholder.Controls.Add(orderedList);
+    }
+
+    private void HighlightSelectedVoteButton(HyperLink upvote, HyperLink downvote, int characterID)
+    {
+        if (Session["vote" + characterID] != null)
+        {
+            if (Session["vote" + characterID].Equals("upvote"))
+            {
+                upvote.CssClass = "selected";
+            }
+            else if (Session["vote" + characterID].Equals("downvote"))
+            {
+                downvote.CssClass = "selected";
+            }
+        }
     }
 
 }
