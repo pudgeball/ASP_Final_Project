@@ -32,7 +32,7 @@
 							<a href="#">Create Build</a>
 						</li>
 						<li>
-							<a href="#">Tier List</a>
+							<a href="TierList.aspx">Tier List</a>
 						</li>
 					</ul>
 				</nav>
