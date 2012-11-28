@@ -11,6 +11,7 @@
     </style>
     </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="pageContent" Runat="Server">
+    <h1>Create New Build</h1>
     <asp:Label ID="Label1" runat="server" Text="Build Name: "></asp:Label>
     <asp:TextBox ID="txtBuildName" runat="server"></asp:TextBox>
     <br />

@@ -16,26 +16,26 @@
 
 		<div id="mainHeader">
 			<div class="logoContainer">
-				<div class="logo"><a href="default.aspx"><img src="Images/logo.png"/></a></div>
+				<div class="logo"><a href="default.aspx"><img src="Images/logo.png" alt="League of Legends Logo" /></a></div>
 			</div>
 
 			<div class="navigationContainer">
-				<nav>
-					<ul>
-						<li>
-							<a href="#">Home</a>
-						</li>
-						<li>
-							<a href="#">View Builds</a>
-						</li>
-						<li>
-							<a href="#">Create Build</a>
-						</li>
-						<li>
-							<a href="TierList.aspx">Tier List</a>
-						</li>
-					</ul>
-				</nav>
+                <div class="nav">
+				    <ul>
+					    <li>
+						    <a href="Default.aspx">Home</a>
+					    </li>
+					    <li>
+						    <a href="#">View Builds</a>
+					    </li>
+					    <li>
+						    <a href="NewBuild.aspx">Create Build</a>
+					    </li>
+					    <li>
+						    <a href="TierList.aspx">Tier List</a>
+					    </li>
+				    </ul>
+                </div>
 			</div>
 		</div>
 

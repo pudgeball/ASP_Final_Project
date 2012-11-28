@@ -6,23 +6,22 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Configuration;
-using System.Collections;
-using LeagueOfLegends;
+using localhost;
 
 public partial class NewBuild : System.Web.UI.Page
 {
-	localhost.LeagueOfLegendsWebService webService = new localhost.LeagueOfLegendsWebService();
-	List<localhost.Item> buildItems;
-	List<localhost.Item> allItems;
-	List<localhost.Ability> abilties;
+	LeagueOfLegendsWebService webService = new LeagueOfLegendsWebService();
+	List<Item> buildItems;
+	List<Item> allItems;
+	List<Ability> abilties;
 	List<RadioButtonList> radioButtonList;
 
     protected void Page_Load(object sender, EventArgs e)
     {
 		if (!Page.IsPostBack)
 		{
-			allItems = webService.GetItems().ToList<localhost.Item>();
-			buildItems = new List<localhost.Item>();
+			allItems = webService.GetItems().ToList<Item>();
+			buildItems = new List<Item>();
 
 			dropCharacter.DataSource = webService.GetCharacters();
 			dropCharacter.DataTextField = "Name";
@@ -75,7 +74,7 @@ public partial class NewBuild : System.Web.UI.Page
 	private void UpdateUI()
 	{
 		int id = Convert.ToInt32(Session["CharacterID"]);
-		abilties = webService.GetAbilitiesForCharacter(id).ToList<localhost.Ability>();
+		abilties = webService.GetAbilitiesForCharacter(id).ToList<Ability>();
 
 		lblAbility1.Text = abilties[0].Name.ToString();
 		lblAbility2.Text = abilties[1].Name.ToString();
@@ -108,8 +107,8 @@ public partial class NewBuild : System.Web.UI.Page
 
 	protected void cmdAdd_Click(object sender, EventArgs e)	
 	{
-		allItems = (List<localhost.Item>)Session["allItems"];
-		buildItems = (List<localhost.Item>)Session["buildItems"];
+		allItems = (List<Item>)Session["allItems"];
+		buildItems = (List<Item>)Session["buildItems"];
 
 		buildItems.Add(allItems[listAllItems.SelectedIndex]);
 		allItems.Remove(allItems[listAllItems.SelectedIndex]);
@@ -121,8 +120,8 @@ public partial class NewBuild : System.Web.UI.Page
 
 	protected void cmdRemove_Click(object sender, EventArgs e)
 	{
-		allItems = (List<localhost.Item>)Session["allItems"];
-		buildItems = (List<localhost.Item>)Session["buildItems"];
+		allItems = (List<Item>)Session["allItems"];
+		buildItems = (List<Item>)Session["buildItems"];
 
 		allItems.Add(buildItems[listBuildItems.SelectedIndex]);
 		buildItems.Remove(buildItems[listBuildItems.SelectedIndex]);
@@ -137,18 +136,18 @@ public partial class NewBuild : System.Web.UI.Page
 		if (ValidateBuild())
 		{
 			int id = Convert.ToInt32(dropCharacter.Items[dropCharacter.SelectedIndex].Value);
-			buildItems = (List<localhost.Item>)Session["buildItems"];
+			buildItems = (List<Item>)Session["buildItems"];
 
-			List<localhost.Ability> buildAbilities = new List<localhost.Ability>();
+			List<Ability> buildAbilities = new List<Ability>();
 			createRadioListArray();
 			foreach (RadioButtonList list in radioButtonList)
 			{
-				localhost.Ability ability = new localhost.Ability();
+				Ability ability = new Ability();
 				ability.Name = list.SelectedItem.Value;
 				buildAbilities.Add(ability);
 			}
 
-			webService = new localhost.LeagueOfLegendsWebService();
+			webService = new LeagueOfLegendsWebService();
 			webService.CreateBuild(txtBuildName.Text, txtUsername.Text, id, buildAbilities.ToArray(), buildItems.ToArray());
 		}
 	}
