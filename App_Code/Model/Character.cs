@@ -9,6 +9,7 @@ namespace LeagueOfLegends.Model
 	{
 		private int _id;
 		private string _name;
+		private List<Ability> _abilities;
 
 		public int ID
 		{
@@ -33,6 +34,19 @@ namespace LeagueOfLegends.Model
 			set
 			{
 				_name = value;
+			}
+		}
+
+		public List<Ability> Abilities
+		{
+			get
+			{
+				return _abilities;
+			}
+
+			set
+			{
+				_abilities = value;
 			}
 		}
 

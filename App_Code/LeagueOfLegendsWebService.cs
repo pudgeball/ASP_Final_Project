@@ -30,6 +30,33 @@ namespace LeagueOfLegends
 		}
 
 		[WebMethod]
+		public Character GetCharacter(int CharacterID)
+		{
+			Character requestedCharacter = new Character();
+
+			string sql = "SELECT * FROM [Characters] WHERE [id] = " + CharacterID;
+			cmd.CommandText = sql;
+
+			conn.Open();
+			SqlDataReader dr = cmd.ExecuteReader();
+
+			if (dr.HasRows)
+			{
+				while (dr.Read())
+				{
+					int id = Convert.ToInt32(dr["id"]);
+					string name = dr["name"].ToString();
+					requestedCharacter.ID = id;
+					requestedCharacter.Name = name;
+				}
+			}
+			dr.Close();
+			conn.Close();
+
+			return requestedCharacter;
+		}
+
+		[WebMethod]
 		public List<Character> GetCharacters()
 		{
 			List<Character> characters = new List<Character>();
@@ -166,6 +193,121 @@ namespace LeagueOfLegends
 			conn.Close();
 
 			return items;
+		}
+
+		[WebMethod]
+		public Build GetBuild(int BuildID)
+		{
+			Build requestedBuild = new Build();
+
+			string sql = "SELECT * FROM [Builds] WHERE [id] = " + BuildID;
+			cmd.CommandText = sql;
+
+			conn.Open();
+			SqlDataReader dr = cmd.ExecuteReader();
+			if (dr.HasRows)
+			{
+				while (dr.Read())
+				{
+					int id = Convert.ToInt32(dr["id"]);
+					string name = dr["name"].ToString();
+					string username = dr["userName"].ToString();
+					requestedBuild.ID = id;
+					requestedBuild.BuildName = name;
+					requestedBuild.UserName = username;
+				}
+			}
+			else
+			{
+				dr.Close();
+				conn.Close();
+				requestedBuild.ID = -1;
+				return requestedBuild;
+			}
+			dr.Close();
+
+			conn.Close();
+			requestedBuild.Character = this.GetCharacterForBuild(BuildID);
+
+			//sql = "SELECT * FROM [Characters] INNER JOIN [BuildsCharacters] ON [Characters].[id] = [BuildsCharacters].[characterID] INNER JOIN [Builds] ON [BuildsCharacters].[buildID] = [Builds].[id] WHERE [Builds].[id] = " + BuildID;
+			//cmd.CommandText = sql;
+
+			//dr = cmd.ExecuteReader();
+			//if (dr.HasRows)
+			//{
+			//    while (dr.Read())
+			//    {
+			//        int id = Convert.ToInt32(dr["id"]);
+			//        string name = dr["name"].ToString();
+			//        requestedBuild.Character = new Character(id, name);
+			//    }
+			//}
+			//dr.Close();
+
+			sql = "SELECT [Abilities].*, [BuildsAbilities].[abilityLevel] FROM [Abilities] INNER JOIN [BuildsAbilities] ON [Abilities].[name] = [BuildsAbilities].[abilityName] INNER JOIN [Builds] ON [BuildsAbilities].[buildID] = [Builds].[id] WHERE [Builds].[id] = " + BuildID + " ORDER BY [BuildsAbilities].[abilityLevel]";
+			cmd.CommandText = sql;
+
+			conn.Open();
+			dr = cmd.ExecuteReader();
+			if (dr.HasRows)
+			{
+				while (dr.Read())
+				{
+					string name = dr["name"].ToString();
+					string description = dr["description"].ToString();
+					requestedBuild.Abilities.Add(new Ability(name, description));
+				}
+			}
+			dr.Close();
+
+			sql = "SELECT * FROM [Items] INNER JOIN [BuildsItems] ON [Items].[name] = [BuildsItems].[itemName] INNER JOIN [Builds] ON [BuildsItems].[buildID] = [Builds].[id] WHERE [Builds].[id] = " + BuildID;
+			cmd.CommandText = sql;
+
+			dr = cmd.ExecuteReader();
+
+			if (dr.HasRows)
+			{
+				while (dr.Read())
+				{
+					string name = dr["name"].ToString();
+					double price = Convert.ToDouble(dr["price"]);
+					string description = dr["description"].ToString();
+					requestedBuild.Items.Add(new Item(name, price, description));
+				}
+			}
+			dr.Close();
+			conn.Close();
+
+			return requestedBuild;
+		}
+
+		[WebMethod]
+		public Character GetCharacterForBuild(int BuildID)
+		{
+			Character requestedCharacter = new Character();
+
+			string sql = "SELECT * FROM [Characters] INNER JOIN [BuildsCharacters] ON [Characters].[id] = [BuildsCharacters].[characterID] INNER JOIN [Builds] ON [BuildsCharacters].[buildID] = [Builds].[id] WHERE [Builds].[id] = " + BuildID;
+			cmd.CommandText = sql;
+
+			conn.Open();
+			SqlDataReader dr = cmd.ExecuteReader();
+
+			if (dr.HasRows)
+			{
+				while (dr.Read())
+				{
+					int id = Convert.ToInt32(dr["id"]);
+					string name = dr["name"].ToString();
+					requestedCharacter.ID = id;
+					requestedCharacter.Name = name;
+				}
+			}
+			dr.Close();
+			conn.Close();
+			
+			requestedCharacter.Abilities = this.GetAbilitiesForCharacter(requestedCharacter.ID);
+
+			return requestedCharacter;
 		}
 
 		[WebMethod]
