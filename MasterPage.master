@@ -26,7 +26,7 @@
 						    <a href="Default.aspx">Home</a>
 					    </li>
 					    <li>
-						    <a href="#">View Builds</a>
+						    <a href="Characters.aspx">View Builds</a>
 					    </li>
 					    <li>
 						    <a href="NewBuild.aspx">Create Build</a>
