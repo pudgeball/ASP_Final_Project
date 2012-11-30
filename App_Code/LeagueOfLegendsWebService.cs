@@ -281,6 +281,56 @@ namespace LeagueOfLegends
 			return requestedBuild;
 		}
 
+        [WebMethod]
+        public Build GetRandomBuild()
+        {
+            string sqlNumberOfBuilds = "SELECT COUNT(*) FROM [Builds]";
+            cmd.CommandText = sqlNumberOfBuilds;
+            conn.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+
+            int numberOfBuilds = 0;
+
+            if (dr.Read())
+            {
+                numberOfBuilds = Convert.ToInt32(dr[0]);
+            }
+
+            if (numberOfBuilds <= 0)
+            {
+                dr.Close();
+                conn.Close();
+
+                Build failedBuild = new Build();
+                failedBuild.ID = -1;
+                failedBuild.BuildName = "fail";
+                failedBuild.UserName = "fail";
+                return failedBuild;
+            }
+
+            dr.Close();
+
+            string sqlSelectAllBuilds = "SELECT [id] FROM [Builds]";
+            cmd.CommandText = sqlSelectAllBuilds;
+            dr = cmd.ExecuteReader();
+
+            int randomRecordNumber = new Random().Next(numberOfBuilds);
+
+            for (int i = 0; i < randomRecordNumber + 1; i++)
+            {
+                dr.Read();
+            }
+
+            int buildID = Convert.ToInt32(dr[0]);
+
+            dr.Close();
+            conn.Close();
+
+            Build randomBuild = this.GetBuild(buildID);
+
+            return randomBuild;
+        }
+
 		[WebMethod]
 		public Character GetCharacterForBuild(int BuildID)
 		{
