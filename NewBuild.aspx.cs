@@ -96,6 +96,11 @@ public partial class NewBuild : System.Web.UI.Page
 			buttonList.DataBind();
 		}
 
+		updateListBoxes();
+	}
+
+	private void updateListBoxes()
+	{
 		listAllItems.DataSource = allItems;
 		listAllItems.DataTextField = "Name";
 		listAllItems.DataBind();
@@ -115,7 +120,7 @@ public partial class NewBuild : System.Web.UI.Page
 
 		cmdAdd.Enabled = false;
 
-		UpdateUI();
+		updateListBoxes();
 	}
 
 	protected void cmdRemove_Click(object sender, EventArgs e)
@@ -128,7 +133,7 @@ public partial class NewBuild : System.Web.UI.Page
 
 		cmdRemove.Enabled = false;
 
-		UpdateUI();
+		updateListBoxes();
 	}
 
 	protected void cmdCreate_Click(object sender, EventArgs e)
@@ -149,6 +154,7 @@ public partial class NewBuild : System.Web.UI.Page
 
 			webService = new LeagueOfLegendsWebService();
 			webService.CreateBuild(txtBuildName.Text, txtUsername.Text, id, buildAbilities.ToArray(), buildItems.ToArray());
+			Response.Redirect("Default.aspx");
 		}
 	}
 

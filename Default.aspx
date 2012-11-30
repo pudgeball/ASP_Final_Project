@@ -4,7 +4,7 @@
     <style type="text/css">
             #content
             {
-                background-image:url("backgrounds/purple.png");
+                background-image:url("images/Teemo_Splash_0.jpg");
 				background-repeat: no-repeat;
             }
         
@@ -12,6 +12,8 @@
 			{
 				padding-top: 160px;
 				padding-bottom: 20px;
+				position: relative;
+				width: 900px;
 			}
 
 			#transparentBox
@@ -57,7 +59,16 @@
 			{
 			    margin: 0 auto;
 			    width: 300px;
-			    
+			}
+			
+			#grad
+			{
+			    position: absolute;
+			    bottom: 0;
+			    left: 0;
+			    right: 0;
+			    height: 100px;
+			    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(20, 19, 18, 1) 100%, #24221F 100%);
 			}
     </style>
 </asp:Content>
@@ -82,6 +93,7 @@
 
             <div class="clear"></div>
         </div>
+        <div id="grad"></div>
     </div>
 </asp:Content>
 

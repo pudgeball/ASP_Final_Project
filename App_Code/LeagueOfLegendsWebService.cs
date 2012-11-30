@@ -420,13 +420,14 @@ namespace LeagueOfLegends
 				cmd.ExecuteNonQuery();
 			}
 
+			cmd.Parameters.Add("@item", System.Data.SqlDbType.VarChar);
 			foreach (Item item in items)
 			{
-				sql = "INSERT INTO [BuildsItems] ([buildID], [itemName]) VALUES(" + builds + ", '" + item.Name + "')";
+				sql = "INSERT INTO [BuildsItems] ([buildID], [itemName]) VALUES(" + builds + ", @item)";
 				cmd.CommandText = sql;
+				cmd.Parameters["@item"].Value = item.Name;
 				cmd.ExecuteNonQuery();
 			}
-
 			conn.Close();
 		}
 	}

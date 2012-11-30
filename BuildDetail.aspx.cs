@@ -205,7 +205,9 @@ public partial class BuildDetail : System.Web.UI.Page
 			TableRow row = new TableRow();
 			
 			TableCell imageCell = new TableCell();
-			imageCell.Text = "ImagePlaceholder";
+			Image itemImage = new Image();
+			itemImage.ImageUrl = "Images/Items/" + items[i].Name + ".png";
+			imageCell.Controls.Add(itemImage);
 
 			TableCell nameCell = new TableCell();
 			nameCell.Text = items[i].Name;
