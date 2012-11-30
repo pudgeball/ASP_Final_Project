@@ -394,38 +394,50 @@ namespace LeagueOfLegends
 			cmd.CommandText = sql;
 			conn.Open();
 			SqlDataReader dr = cmd.ExecuteReader();
-			int builds = -1;
+			int buildCount = -1;
 			if (dr.HasRows)
 			{
 				while(dr.Read())
 				{
-					builds = Convert.ToInt32(dr["Builds"]);
+					buildCount = Convert.ToInt32(dr["Builds"]);
 				}
 			}
 			dr.Close();
 
-			sql = "INSERT INTO [Builds] ([id], [name], [userName]) VALUES(" + builds + ", '" + BuildName + "', '" + UserName + "')";
+			//Insert the build info into the database
+			sql = "INSERT INTO [Builds] ([id], [name], [userName]) VALUES(@buildID, @buildName, @userName)";
 			cmd.CommandText = sql;
+			cmd.Parameters.Add("@buildID", System.Data.SqlDbType.Int).Value = buildCount;
+			cmd.Parameters.Add("@buildName", System.Data.SqlDbType.VarChar).Value = BuildName;
+			cmd.Parameters.Add("@userName", System.Data.SqlDbType.VarChar).Value = UserName;
 			cmd.ExecuteNonQuery();
 
-			sql = "INSERT INTO [BuildsCharacters] ([buildID], [characterID]) VALUES(" + builds + ", " + CharacterID + ")";
+			//Add the character to the database
+			sql = "INSERT INTO [BuildsCharacters] ([buildID], [characterID]) VALUES(@buildID, @characterID)";
 			cmd.CommandText = sql;
+			cmd.Parameters.Add("@characterID", System.Data.SqlDbType.Int).Value = CharacterID;
 			cmd.ExecuteNonQuery();
 
+			//Add the list of abilities to database
+			sql = "INSERT INTO [BuildsAbilities] ([buildID], [abilityName], [abilityLevel]) VALUES(@buildID, @abilityName, @abilityLevel)";
+			cmd.CommandText = sql;
+			cmd.Parameters.Add("@abilityName", System.Data.SqlDbType.VarChar);
+			cmd.Parameters.Add("@abilityLevel", System.Data.SqlDbType.Int);
 			for (int i = 0; i < abilities.Count; i++)
 			{
 				Ability ability = abilities[i];
-				sql = "INSERT INTO [BuildsAbilities] ([buildID], [abilityName], [abilityLevel]) VALUES(" + builds + ", '" + ability.Name + "', " + (i+1) + ")";
-				cmd.CommandText = sql;
+				cmd.Parameters["@abilityName"].Value = ability.Name;
+				cmd.Parameters["@abilityLevel"].Value = (i + 1);
 				cmd.ExecuteNonQuery();
 			}
 
-			cmd.Parameters.Add("@item", System.Data.SqlDbType.VarChar);
+			//Add the items to the database
+			sql = "INSERT INTO [BuildsItems] ([buildID], [itemName]) VALUES(@buildID, @itemName)";
+			cmd.CommandText = sql;
+			cmd.Parameters.Add("@itemName", System.Data.SqlDbType.VarChar);
 			foreach (Item item in items)
 			{
-				sql = "INSERT INTO [BuildsItems] ([buildID], [itemName]) VALUES(" + builds + ", @item)";
-				cmd.CommandText = sql;
-				cmd.Parameters["@item"].Value = item.Name;
+				cmd.Parameters["@itemName"].Value = item.Name;
 				cmd.ExecuteNonQuery();
 			}
 			conn.Close();
