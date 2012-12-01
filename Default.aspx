@@ -4,7 +4,7 @@
     <style type="text/css">
             #content
             {
-                background-image:url("images/Teemo_Splash_0.jpg");
+                background-image:url(<%=splashUrl%>);
 				background-repeat: no-repeat;
             }
         

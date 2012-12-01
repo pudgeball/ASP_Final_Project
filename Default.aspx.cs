@@ -6,20 +6,23 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using localhost;
 using System.Web.UI.HtmlControls;
+using LeagueOfLegends.Model.Utility;
 
 public partial class _Default : System.Web.UI.Page
 {
     LeagueOfLegendsWebService webService;
+    public string splashUrl = "";
 
     protected void Page_Load(object sender, EventArgs e)
     {
         webService = new LeagueOfLegendsWebService();
 
-        populateRandomBuildPlaceholder();
-        populateTierPlaceholder();
+        SetRandomSplashImage();
+        PopulateRandomBuildPlaceholder();
+        PopulateTierPlaceholder();
     }
 
-    private void populateRandomBuildPlaceholder()
+    private void PopulateRandomBuildPlaceholder()
     {
         Build randomBuild = webService.GetRandomBuild();
         string characterName = randomBuild.Character.Name;
@@ -40,7 +43,7 @@ public partial class _Default : System.Web.UI.Page
         randomBuildPlaceholder.Controls.Add(linkToBuild);
     }
 
-    private void populateTierPlaceholder()
+    private void PopulateTierPlaceholder()
     {
         List<Character> characters = webService.GetCharactersOrderedByVote().ToList<Character>();
         HtmlGenericControl tierContainerContent = new HtmlGenericControl("div");
@@ -54,5 +57,12 @@ public partial class _Default : System.Web.UI.Page
         }
 
         tierPlaceholder.Controls.Add(tierContainerContent);
+    }
+
+    private void SetRandomSplashImage()
+    {
+        List<Character> characters = webService.GetCharacters().ToList<Character>();
+        Character randomCharacter = characters[new Random().Next(characters.Count)];
+        splashUrl = CharacterUtility.GetImagePath(randomCharacter.Name, CharacterUtility.ImageType.Splash);
     }
 }

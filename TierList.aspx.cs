@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using localhost;
 using System.Collections.Specialized;
+using LeagueOfLegends.Model.Utility;
 
 public partial class TierList : System.Web.UI.Page
 {
@@ -87,8 +88,9 @@ public partial class TierList : System.Web.UI.Page
             string votes = webService.GetVotesForCharacter(characterID).ToString();
 
             Image characterImage = new Image();
-            characterImage.ImageUrl = "Images/" + characterName.ToLower() + ".png";
-
+            characterImage.ImageUrl = CharacterUtility.GetImagePath(characterName, CharacterUtility.ImageType.Square);
+            //characterImage.ImageUrl = "Images/" + characterName.ToLower() + ".png";
+            
             Image plusImage = new Image();
             plusImage.ImageUrl = "Images/plus.png";
 

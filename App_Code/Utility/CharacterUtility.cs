@@ -5,7 +5,7 @@ using System.Web;
 
 namespace LeagueOfLegends.Model.Utility
 {
-	public class CharacterUtility
+	public static class CharacterUtility
 	{
 		public enum ImageType
 		{

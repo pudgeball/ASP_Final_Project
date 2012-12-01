@@ -442,5 +442,20 @@ namespace LeagueOfLegends
 			}
 			conn.Close();
 		}
+
+        //only use this once (already been used)
+        [WebMethod]
+        public void EnterPlaceholderVotes()
+        {
+            conn.Open();
+            for (int i = 2; i <= 106; i++)
+            {
+                string sql = "INSERT INTO [CharacterVotes] ([characterID], [votes]) VALUES(" + i + ", 0)";
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+            }
+
+            conn.Close();
+        }
 	}
 }
