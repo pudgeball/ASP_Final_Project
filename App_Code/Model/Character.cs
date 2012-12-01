@@ -12,13 +12,6 @@ namespace LeagueOfLegends.Model
 		private List<Ability> _abilities;
 		private int _skinCount;
 
-		public enum ImageType
-		{
-			Portrait,
-			Splash,
-			Square
-		}
-
 		public int ID
 		{
 			get
@@ -84,39 +77,6 @@ namespace LeagueOfLegends.Model
 		public override string ToString()
 		{
 			return String.Format("{0} - {1}", ID, Name);
-		}
-
-		public string GetImagePath(ImageType type)
-		{
-			return GetImagePath(type, 0);
-		}
-
-		public string GetImagePath(ImageType type, int Skin)
-		{
-			string path = "Images/";
-			string typeString = type.ToString();
-			if (type == ImageType.Portrait || type == ImageType.Splash)
-			{
-				path += type + "/" + this.Name + "_";
-				if (type == ImageType.Splash)
-				{
-					path += type + "_";
-				}
-				if (Skin > _skinCount)
-				{
-					path += _skinCount + ".jpg";
-				}
-				else
-				{
-					path += Skin + ".jpg";
-				}
-			}
-			else if (type == ImageType.Square)
-			{
-				path += type + "/" + this.Name + "_" + type + "_" + "0.png";
-			}
-
-			return path;
 		}
 	}
 }
