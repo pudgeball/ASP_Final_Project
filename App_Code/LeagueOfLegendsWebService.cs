@@ -46,8 +46,10 @@ namespace LeagueOfLegends
 				{
 					int id = Convert.ToInt32(dr["id"]);
 					string name = dr["name"].ToString();
+					int skinCount = Convert.ToInt32(dr["skinCount"]);
 					requestedCharacter.ID = id;
 					requestedCharacter.Name = name;
+					requestedCharacter.SkinCount = skinCount;
 				}
 			}
 			dr.Close();
