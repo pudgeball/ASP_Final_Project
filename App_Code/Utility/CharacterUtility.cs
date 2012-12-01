@@ -14,34 +14,27 @@ namespace LeagueOfLegends.Model.Utility
 			Square
 		}
 
-		public string GetImagePath(Character character, ImageType type)
+		public static string GetImagePath(string CharacterName, ImageType Type)
 		{
-			return GetImagePath(character, type, 0);
+			return GetImagePath(CharacterName, Type, 0);
 		}
 
-		public string GetImagePath(Character character, ImageType type, int Skin)
+		public static string GetImagePath(string CharacterName, ImageType Type, int Skin)
 		{
 			string path = "Images/";
-			string typeString = type.ToString();
-			if (type == ImageType.Portrait || type == ImageType.Splash)
+			if (Type == ImageType.Portrait || Type == ImageType.Splash)
 			{
-				path += type + "/" + character.Name + "_";
-				if (type == ImageType.Splash)
+				path += Type + "/" + CharacterName + "_";
+				if (Type == ImageType.Splash)
 				{
-					path += type + "_";
+					path += Type + "_";
 				}
-				if (Skin > character.SkinCount)
-				{
-					path += character.SkinCount + ".jpg";
-				}
-				else
-				{
-					path += Skin + ".jpg";
-				}
+
+				path += Skin + ".jpg";
 			}
-			else if (type == ImageType.Square)
+			else if (Type == ImageType.Square)
 			{
-				path += type + "/" + character.Name + "_" + type + "_" + "0.png";
+				path += Type + "/" + CharacterName + "_" + Type + "_" + "0.png";
 			}
 
 			return path;
