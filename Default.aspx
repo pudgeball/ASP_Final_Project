@@ -5,6 +5,7 @@
             #content
             {
                 background-image:url(<%=splashUrl%>);
+                background-size: 900px;
 				background-repeat: no-repeat;
             }
         

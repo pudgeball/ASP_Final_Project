@@ -49,7 +49,7 @@ public partial class _Default : System.Web.UI.Page
         HtmlGenericControl tierContainerContent = new HtmlGenericControl("div");
         tierContainerContent.ID = "tierContainerContent";
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 5; i++)
         {
             string characterName = characters[i].Name;
 
