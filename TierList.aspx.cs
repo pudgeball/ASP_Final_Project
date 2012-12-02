@@ -100,9 +100,7 @@ public partial class TierList : System.Web.UI.Page
             HtmlGenericControl listItem = new HtmlGenericControl("li");
             HtmlGenericControl rankContainer = new HtmlGenericControl("div");
             HtmlGenericControl masterContainer = new HtmlGenericControl("div");
-            HtmlGenericControl voteControlAndVoteNumberContainer = new HtmlGenericControl("div");
             HtmlGenericControl characterNameContainer = new HtmlGenericControl("div");
-            HtmlGenericControl voteControl = new HtmlGenericControl("div");
             HtmlGenericControl voteNumber = new HtmlGenericControl("div");
             HyperLink upvote = new HyperLink();
             HyperLink downvote = new HyperLink();
@@ -111,9 +109,7 @@ public partial class TierList : System.Web.UI.Page
             listItem.ID = "listItem";
             rankContainer.ID = "rankContainer";
             masterContainer.ID = "masterContainer";
-            voteControlAndVoteNumberContainer.ID = "voteControlAndVoteNumberContainer";
             characterNameContainer.ID = "characterNameContainer";
-            voteControl.ID = "voteControl";
             voteNumber.ID = "voteNumber";
             upvote.ID = "upvote";
             downvote.ID = "downvote";
@@ -135,17 +131,11 @@ public partial class TierList : System.Web.UI.Page
             // Populate the characterNameContainer with name
             characterNameContainer.InnerText = characterName;
 
-            // Add HyperLink controls into voteControl
-            voteControl.Controls.Add(upvote);
-            voteControl.Controls.Add(downvote);
-
-            // Add controls, in order, into voteControlAndVoteNumberContainer
-            voteControlAndVoteNumberContainer.Controls.Add(voteControl);
-            voteControlAndVoteNumberContainer.Controls.Add(voteNumber);
-
             // Add controls, in order, into masterContainer
             masterContainer.Controls.Add(characterNameContainer);
-            masterContainer.Controls.Add(voteControlAndVoteNumberContainer);
+            masterContainer.Controls.Add(upvote);
+            masterContainer.Controls.Add(downvote);
+            masterContainer.Controls.Add(voteNumber);
 
             // Add controls, in order, into listItem
             listItem.Controls.Add(rankContainer);
