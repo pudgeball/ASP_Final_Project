@@ -85,6 +85,34 @@ namespace LeagueOfLegends
 		}
 
 		[WebMethod]
+		public List<Build> GetBuildsForCharacter(int characterID)
+		{
+			List<Build> builds = new List<Build>();
+
+			string sql = "SELECT * FROM [Builds],[BuildsCharacters] WHERE [Builds].[id] = [BuildsCharacters].[buildID] AND [BuildsCharacters].[characterID] = " + characterID;
+			cmd.CommandText = sql;
+			conn.Open();
+			SqlDataReader dr = cmd.ExecuteReader();
+			if (dr.HasRows)
+			{
+				while (dr.Read())
+				{
+					int buildID = Convert.ToInt32(dr["id"]);
+					string name = dr["name"].ToString();
+					string userName = dr["userName"].ToString();
+					Build b = new Build();
+					b.ID = buildID;
+					b.BuildName = name;
+					b.UserName = userName;
+					builds.Add(b);
+				}
+			}
+			dr.Close();
+			conn.Close();
+			return builds;
+		}
+
+		[WebMethod]
 		public List<Ability> GetAbilitiesForCharacter(int CharacterID)
 		{
 			List<Ability> abilities = new List<Ability>();
