@@ -140,7 +140,7 @@ namespace LeagueOfLegends
         {
             List<Character> characters = new List<Character>();
 
-            string sql = "SELECT * FROM [Characters] INNER JOIN [CharacterVotes] ON [Characters].[id] = [CharacterVotes].[characterID] ORDER BY [votes] DESC";
+            string sql = "SELECT * FROM [Characters] INNER JOIN [CharacterVotes] ON [Characters].[id] = [CharacterVotes].[characterID] ORDER BY [votes] DESC, [Characters].[name] ASC";
             cmd.CommandText = sql;
 
             conn.Open();

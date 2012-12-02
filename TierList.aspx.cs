@@ -81,6 +81,10 @@ public partial class TierList : System.Web.UI.Page
         HtmlGenericControl orderedList = new HtmlGenericControl("ol");
         orderedList.ID = "orderedListControl";
 
+        int previousVoteValue = 0;
+        int rank = 0;
+        int numberOfTiesInARow = 0;
+
         for (int i = 0; i < characters.Count; i++)
         {
             string characterName = characters[i].Name;
@@ -89,7 +93,6 @@ public partial class TierList : System.Web.UI.Page
 
             Image characterImage = new Image();
             characterImage.ImageUrl = CharacterUtility.GetImagePath(characterName, CharacterUtility.ImageType.Square);
-            //characterImage.ImageUrl = "Images/" + characterName.ToLower() + ".png";
             
             Image plusImage = new Image();
             plusImage.ImageUrl = "Images/plus.png";
@@ -126,7 +129,25 @@ public partial class TierList : System.Web.UI.Page
             voteNumber.InnerText = votes + " points";
 
             // Populate the rankContainer with the rank number
-            rankContainer.InnerText = (i + 1).ToString();
+            if (i > 0)
+            {
+                if(Convert.ToInt32(votes) == previousVoteValue)
+                {
+                    numberOfTiesInARow++;
+                }
+                else
+                {
+                    rank += numberOfTiesInARow;
+                    rank += 1;
+                    numberOfTiesInARow = 0;
+                }
+            }
+            else
+            {
+                rank = 1; // the default rank for the first time through the loop
+            }
+
+            rankContainer.InnerText = rank.ToString();
 
             // Populate the characterNameContainer with name
             characterNameContainer.InnerText = characterName;
@@ -144,6 +165,8 @@ public partial class TierList : System.Web.UI.Page
 
             // Add the listItem into the orderedList
             orderedList.Controls.Add(listItem);
+
+            previousVoteValue = Convert.ToInt32(votes);
         }
 
         tierListPlaceholder.Controls.Add(orderedList);
