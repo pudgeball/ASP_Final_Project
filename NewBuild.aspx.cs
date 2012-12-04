@@ -153,8 +153,9 @@ public partial class NewBuild : System.Web.UI.Page
 			}
 
 			webService = new LeagueOfLegendsWebService();
-			webService.CreateBuild(txtBuildName.Text, txtUsername.Text, id, buildAbilities.ToArray(), buildItems.ToArray());
-			Response.Redirect("Default.aspx");
+			int buildID = webService.CreateBuild(txtBuildName.Text, txtUsername.Text, id, buildAbilities.ToArray(), buildItems.ToArray());
+			
+			Response.Redirect("BuildDetail.aspx?BuildID=" + buildID);
 		}
 	}
 

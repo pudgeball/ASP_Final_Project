@@ -418,7 +418,7 @@ namespace LeagueOfLegends
 		}
 
 		[WebMethod]
-		public void CreateBuild(string BuildName, string UserName, int CharacterID, List<Ability> abilities, List<Item> items)
+		public int CreateBuild(string BuildName, string UserName, int CharacterID, List<Ability> abilities, List<Item> items)
 		{
 			string sql = "SELECT COUNT(*) AS Builds FROM [Builds]";
 			cmd.CommandText = sql;
@@ -471,6 +471,8 @@ namespace LeagueOfLegends
 				cmd.ExecuteNonQuery();
 			}
 			conn.Close();
+
+			return buildCount;
 		}
 
         //only use this once (already been used)
