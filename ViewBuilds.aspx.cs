@@ -20,6 +20,7 @@ public partial class ViewBuilds : System.Web.UI.Page
 
 		if (characterData["ID"] != null)
 		{
+			try{
 			characterID = Convert.ToInt32(characterData["ID"]);
 			LeagueOfLegendsWebService webservice = new LeagueOfLegendsWebService();
 
@@ -69,10 +70,10 @@ public partial class ViewBuilds : System.Web.UI.Page
 				HyperLink buildUserNameLink = new HyperLink();
 				buildNameLink.NavigateUrl = "BuildDetail.aspx?BuildID=" + builds[i].ID;
 				buildUserNameLink.NavigateUrl = "BuildDetail.aspx?BuildID=" + builds[i].ID;
-				
+
 				buildNameLink.Text = builds[i].BuildName;
 				buildUserNameLink.Text = "By " + builds[i].UserName;
-				
+
 				buildNameContainer.Controls.Add(buildNameLink);
 				buildUserNameContainer.Controls.Add(buildUserNameLink);
 
@@ -80,7 +81,14 @@ public partial class ViewBuilds : System.Web.UI.Page
 				buildContainer.Controls.Add(buildUserNameContainer);
 
 				buildsPlaceholder.Controls.Add(buildContainer);
+			
 
+
+			}
+			}
+			catch (Exception ex)
+			{
+				Response.Redirect("Characters.aspx");
 			}
 
 		}

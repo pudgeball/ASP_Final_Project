@@ -2,6 +2,7 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<link type="text/css" rel="Stylesheet" href="CSS/characters.css" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="pageContent" Runat="Server">
