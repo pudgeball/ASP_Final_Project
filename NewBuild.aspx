@@ -1,46 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="NewBuild.aspx.cs" Inherits="NewBuild" %>
+﻿<%@ Page Title="New Build" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="NewBuild.aspx.cs" Inherits="NewBuild" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-    <style type="text/css">
-        .style1
-        {
-            width: 100%;
-            border-style: solid;
-            border-width: 1px;
-        }
-        .row
-        {
-            padding: 10px;
-            background-color: #2A2A2A;
-        }
-        
-        .odd
-        {
-            background-color: #3A3A3A;
-        }
-        
-        .abilityRowEven
-        {
-           background-color: #2A2A2A;
-        }
-        
-        .center
-        {
-            text-align: center;
-        }
-        
-        #pageContent_Items
-        {
-            padding: 20px 10px;
-        }
-        
-        .itemSelect
-        {
-            width: 300px;
-            height: 300px;
-        }
-    </style>
-    </asp:Content>
+    <link type="text/css" rel="Stylesheet" href="CSS/NewBuild.css" />
+</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="pageContent" Runat="Server">
     <div>
         <h1>Create New Build</h1>

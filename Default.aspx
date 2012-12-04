@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Title="League of Legends" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <style type="text/css">
@@ -7,6 +7,7 @@
                 background-image:url(<%=splashUrl%>);
                 background-size: 900px;
 				background-repeat: no-repeat;
+				padding-bottom: 5px;
             }
         
         	#transparentBoxContainer
@@ -15,6 +16,7 @@
 				padding-bottom: 20px;
 				position: relative;
 				width: 900px;
+				
 			}
 
 			#transparentBox
@@ -22,6 +24,8 @@
 				margin: 0px 20px 20px 20px;
 				padding: 10px 30px 30px 30px;
 				background-color: rgba(0, 0, 0, 0.7);
+				z-index: 1;
+				position: relative;
 			}
 			
 			#randomBuildContainer
@@ -68,8 +72,10 @@
 			    bottom: 0;
 			    left: 0;
 			    right: 0;
-			    height: 100px;
-			    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(20, 19, 18, 1) 100%, #24221F 100%);
+			    height: 200px;
+			    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(20, 19, 18, 1) 60%, #24221F 100%);
+			    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a624221f',GradientType=0 );
+			    z-index: 0;
 			}
     </style>
 </asp:Content>

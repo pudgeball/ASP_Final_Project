@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Characters" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Characters.aspx.cs" Inherits="Characters" %>
-
+<%@ OutputCache Duration="15" VaryByParam="none" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 <link type="text/css" rel="Stylesheet" href="CSS/characters.css" />

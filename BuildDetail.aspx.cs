@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Collections.Specialized;
 using localhost;
+using LeagueOfLegends.Model.Utility;
 
 public partial class BuildDetail : System.Web.UI.Page
 {
@@ -26,6 +27,8 @@ public partial class BuildDetail : System.Web.UI.Page
 				Response.Redirect("Default.aspx");
 			}
 
+			this.Page.Title = characterBuild.BuildName;
+
 			//Create the HTML for placeBuildInfo
 			//First create the div to hold the info
 			HtmlGenericControl divBuildInfo = new HtmlGenericControl("div");
@@ -43,7 +46,7 @@ public partial class BuildDetail : System.Web.UI.Page
 
 			//Then Create the image of the character
 			Image characterImage = new Image();
-			characterImage.ImageUrl = "Images/" + characterBuild.Character.Name.ToLower() + ".png";
+			characterImage.ImageUrl = CharacterUtility.GetImagePath(characterBuild.Character.Name, CharacterUtility.ImageType.Square);
 			characterImage.AlternateText = "Icon of " + characterBuild.Character.Name;
 			characterImage.Style.Add("float", "left");
 			divCharacter.Controls.Add(characterImage);
@@ -205,6 +208,7 @@ public partial class BuildDetail : System.Web.UI.Page
 			TableRow row = new TableRow();
 			
 			TableCell imageCell = new TableCell();
+			imageCell.ID = "itemImage";
 			Image itemImage = new Image();
 			itemImage.ImageUrl = "Images/Items/" + items[i].Name + ".png";
 			imageCell.Controls.Add(itemImage);
