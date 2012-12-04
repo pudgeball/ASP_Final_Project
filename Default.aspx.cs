@@ -53,7 +53,7 @@ public partial class _Default : System.Web.UI.Page
         {
             string characterName = characters[i].Name;
 
-            tierContainerContent.InnerHtml += (i + 1) + ". <a href=ViewBuilds.aspx?ID=" + i + ">" + characterName + "</a><br/>";
+            tierContainerContent.InnerHtml += (i + 1) + ". <a href=ViewBuilds.aspx?ID=" + characters[i].ID + ">" + characterName + "</a><br/>";
         }
 
         tierPlaceholder.Controls.Add(tierContainerContent);
