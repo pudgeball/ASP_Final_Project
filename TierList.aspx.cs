@@ -20,11 +20,6 @@ public partial class TierList : System.Web.UI.Page
         string qsVoteType = qs.Get("voteType");
         int characterCount = webService.GetCharacters().Count();
 
-        //for (int i = 0; i < characterCount; i++)
-        //{
-        //    Response.Write(webService.GetCharacters()[i].Name + ": " + Session["vote" + i] + "<br/>");
-        //}
-
         try
         {
             if (qsCharacterID != null && qsVoteType != null && Convert.ToInt32(qsCharacterID) < characterCount)
@@ -126,7 +121,14 @@ public partial class TierList : System.Web.UI.Page
             downvote.Controls.Add(minusImage);
 
             // Populate the voteNumber control with the vote number
-            voteNumber.InnerText = votes + " points";
+            if (Convert.ToInt32(votes) == 1 || Convert.ToInt32(votes) == -1)
+            {
+                voteNumber.InnerText = votes + " point";
+            }
+            else
+            {
+                voteNumber.InnerText = votes + " points";
+            }
 
             // Populate the rankContainer with the rank number
             if (i > 0)
