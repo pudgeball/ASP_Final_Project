@@ -128,8 +128,7 @@ namespace LeagueOfLegends
 				while (dr.Read())
 				{
 					string name = dr["name"].ToString();
-					string description = dr["description"].ToString();
-					abilities.Add(new Ability(name, description));
+					abilities.Add(new Ability(name));
 				}
 			}
 			dr.Close();
@@ -284,8 +283,7 @@ namespace LeagueOfLegends
 				while (dr.Read())
 				{
 					string name = dr["name"].ToString();
-					string description = dr["description"].ToString();
-					requestedBuild.Abilities.Add(new Ability(name, description));
+					requestedBuild.Abilities.Add(new Ability(name));
 				}
 			}
 			dr.Close();

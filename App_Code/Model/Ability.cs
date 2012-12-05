@@ -8,7 +8,6 @@ namespace LeagueOfLegends.Model
 	public class Ability
 	{
 		private string _name;
-		private string _description;
 
 		public string Name
 		{
@@ -22,27 +21,14 @@ namespace LeagueOfLegends.Model
 			}
 		}
 
-		public string Description
-		{
-			get
-			{
-				return _description;
-			}
-			set
-			{
-				_description = value;
-			}
-		}
-
 		public Ability()
 		{
 
 		}
 
-		public Ability(string name, string description)
+		public Ability(string name)
 		{
 			Name = name;
-			Description = description;
 		}
 	}
 }
