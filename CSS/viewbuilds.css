@@ -12,17 +12,26 @@
 	width:200px;
 	text-align:center;
 	border:1px solid black;
-	margin-right:20px;
-	margin-left:20px;
+	margin: 10px 20px;  
 }
 #pageContent_buildNameContainer
 {
 	background-color: #3A3A3A;
+	height: 20px;
+	padding: 5px;
 }
 #pageContent_buildUserNameContainer
 {
-	font-style: italic;
+	font-style: none;
 	background-color: #2A2A2A;
+	overflow: hidden;
+	height: 30px;
+	padding-top: 5px;
+}
+
+#pageContent_buildUserNameContainer a
+{
+    text-decoration: none;
 }
 #footer
 {
