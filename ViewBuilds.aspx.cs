@@ -69,6 +69,9 @@ public partial class ViewBuilds : System.Web.UI.Page
 					noBuildsRedirectContainer.Controls.Add(characterLink);
 					buildsPlaceholder.Controls.Add(noBuildsContainer);
 					buildsPlaceholder.Controls.Add(noBuildsRedirectContainer);
+
+					noBuildsRedirectContainer.ID = "redirectContainer";
+					noBuildsContainer.ID = "noBuildsContainer";
 				}
 				else
 				{
@@ -77,26 +80,21 @@ public partial class ViewBuilds : System.Web.UI.Page
 						HtmlGenericControl buildContainer = new HtmlGenericControl("div");
 						HtmlGenericControl buildNameContainer = new HtmlGenericControl("div");
 						HtmlGenericControl buildUserNameContainer = new HtmlGenericControl("div");
+						
 
+						HyperLink buildClick2 = new HyperLink();
+						buildClick2.NavigateUrl = "BuildDetail.aspx?BuildID=" + builds[i].ID;
 						buildContainer.ID = "buildContainer";
 						buildNameContainer.ID = "buildNameContainer";
 						buildUserNameContainer.ID = "buildUserNameContainer";
 
-						HyperLink buildNameLink = new HyperLink();
-						HyperLink buildUserNameLink = new HyperLink();
-						buildNameLink.NavigateUrl = "BuildDetail.aspx?BuildID=" + builds[i].ID;
-						buildUserNameLink.NavigateUrl = "BuildDetail.aspx?BuildID=" + builds[i].ID;
-
-						buildNameLink.Text = builds[i].BuildName;
-						buildUserNameLink.Text = "By " + builds[i].UserName;
-
-						buildNameContainer.Controls.Add(buildNameLink);
-						buildUserNameContainer.Controls.Add(buildUserNameLink);
-
+						buildNameContainer.InnerText = builds[i].BuildName;
+						buildUserNameContainer.InnerText = builds[i].UserName;
+							
 						buildContainer.Controls.Add(buildNameContainer);
 						buildContainer.Controls.Add(buildUserNameContainer);
-
-						buildsPlaceholder.Controls.Add(buildContainer);
+						buildClick2.Controls.Add(buildContainer);
+						buildsPlaceholder.Controls.Add(buildClick2);
 
 
 

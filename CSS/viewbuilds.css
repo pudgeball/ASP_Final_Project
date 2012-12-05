@@ -37,3 +37,11 @@
 {
         clear:both;
 }
+#pageContent_noBuildsContainer
+{
+    text-align:center;
+}
+#pageContent_redirectContainer
+{
+    text-align:center;
+}
