@@ -258,21 +258,6 @@ namespace LeagueOfLegends
 			conn.Close();
 			requestedBuild.Character = this.GetCharacterForBuild(BuildID);
 
-			//sql = "SELECT * FROM [Characters] INNER JOIN [BuildsCharacters] ON [Characters].[id] = [BuildsCharacters].[characterID] INNER JOIN [Builds] ON [BuildsCharacters].[buildID] = [Builds].[id] WHERE [Builds].[id] = " + BuildID;
-			//cmd.CommandText = sql;
-
-			//dr = cmd.ExecuteReader();
-			//if (dr.HasRows)
-			//{
-			//    while (dr.Read())
-			//    {
-			//        int id = Convert.ToInt32(dr["id"]);
-			//        string name = dr["name"].ToString();
-			//        requestedBuild.Character = new Character(id, name);
-			//    }
-			//}
-			//dr.Close();
-
 			sql = "SELECT [Abilities].*, [BuildsAbilities].[abilityLevel] FROM [Abilities] INNER JOIN [BuildsAbilities] ON [Abilities].[name] = [BuildsAbilities].[abilityName] INNER JOIN [Builds] ON [BuildsAbilities].[buildID] = [Builds].[id] WHERE [Builds].[id] = " + BuildID + " ORDER BY [BuildsAbilities].[abilityLevel]";
 			cmd.CommandText = sql;
 
@@ -472,20 +457,5 @@ namespace LeagueOfLegends
 
 			return buildCount;
 		}
-
-        //only use this once (already been used)
-        [WebMethod]
-        public void EnterPlaceholderVotes()
-        {
-            conn.Open();
-            for (int i = 2; i <= 106; i++)
-            {
-                string sql = "INSERT INTO [CharacterVotes] ([characterID], [votes]) VALUES(" + i + ", 0)";
-                cmd.CommandText = sql;
-                cmd.ExecuteNonQuery();
-            }
-
-            conn.Close();
-        }
 	}
 }
