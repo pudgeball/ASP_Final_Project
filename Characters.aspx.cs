@@ -14,13 +14,18 @@ public partial class Characters : System.Web.UI.Page
     {
 		LeagueOfLegendsWebService webservice = new LeagueOfLegendsWebService();
 
-		
+		HtmlGenericControl characterTextContainer = new HtmlGenericControl("p");
+		characterTextContainer.InnerText = "Click a portrait below to view builds for that character";
+		charactersPlaceholder.Controls.Add(characterTextContainer);
+
 		List<Character> characters = webservice.GetCharacters().ToList<Character>();
 		for (int i = 0; i < characters.Count(); i++)
 		{
 			HtmlGenericControl imageContainer = new HtmlGenericControl("div");
 			HtmlGenericControl nameContainer = new HtmlGenericControl("div");
 			HtmlGenericControl characterContainer = new HtmlGenericControl("div");
+			
+			
 
 			imageContainer.ID = "imageContainer";
 			nameContainer.ID = "nameContainer";
@@ -43,6 +48,7 @@ public partial class Characters : System.Web.UI.Page
 			nameContainer.Controls.Add(nameLink);
 			characterContainer.Controls.Add(imageContainer);
 			characterContainer.Controls.Add(nameContainer);
+			
 			charactersPlaceholder.Controls.Add(characterContainer);
 
 		}

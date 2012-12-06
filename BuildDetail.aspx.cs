@@ -18,98 +18,106 @@ public partial class BuildDetail : System.Web.UI.Page
 		NameValueCollection queryString = Request.QueryString;
 		if (queryString["BuildID"] != null)
 		{
-			BuildID = Convert.ToInt32(queryString["BuildID"]);
-			LeagueOfLegendsWebService webService = new LeagueOfLegendsWebService();
-			Build characterBuild = webService.GetBuild(BuildID);
-
-			if (characterBuild.ID == -1)
+			try
 			{
-				Response.Redirect("Default.aspx");
+				BuildID = Convert.ToInt32(queryString["BuildID"]);
+				LeagueOfLegendsWebService webService = new LeagueOfLegendsWebService();
+				Build characterBuild = webService.GetBuild(BuildID);
+
+				if (characterBuild.ID == -1)
+				{
+					Response.Redirect("Default.aspx");
+				}
+
+				this.Page.Title = characterBuild.BuildName;
+
+				//Create the HTML for placeBuildInfo
+				//First create the div to hold the info
+				HtmlGenericControl divBuildInfo = new HtmlGenericControl("div");
+				divBuildInfo.ID = "BuildInfo";
+				//divBuildInfo.Attributes.Add("class", "section");
+
+				//Get the build name
+				HtmlGenericControl titleBuildName = new HtmlGenericControl("h1");
+				titleBuildName.InnerHtml = characterBuild.BuildName;
+				divBuildInfo.Controls.Add(titleBuildName);
+
+				//Create a div to hold the image and title info
+				HtmlGenericControl divCharacter = new HtmlGenericControl("div");
+				divCharacter.Attributes.Add("class", "description");
+
+				//Then Create the image of the character
+				Image characterImage = new Image();
+				characterImage.ImageUrl = CharacterUtility.GetImagePath(characterBuild.Character.Name, CharacterUtility.ImageType.Square);
+				characterImage.AlternateText = "Icon of " + characterBuild.Character.Name;
+				characterImage.Style.Add("float", "left");
+				divCharacter.Controls.Add(characterImage);
+
+				//Create a div to hold the description
+				HtmlGenericControl divDescription = new HtmlGenericControl("div");
+
+				//Get the character name
+				HtmlGenericControl titleCharacterName = new HtmlGenericControl("h3");
+				titleCharacterName.InnerHtml = "<i>A build for " + characterBuild.Character.Name + "</i>";
+				divDescription.Controls.Add(titleCharacterName);
+
+				//Get the username
+				HtmlGenericControl titleUsername = new HtmlGenericControl("h4");
+				titleUsername.InnerHtml = "<i>Created by " + characterBuild.UserName + "</i>";
+				divDescription.Controls.Add(titleUsername);
+
+				//Make sure everything is added
+				divCharacter.Controls.Add(divDescription);
+				divBuildInfo.Controls.Add(divCharacter);
+
+				//Create the actual placeholder
+				placeBuildInfo.Controls.Add(divBuildInfo);
+
+
+				//Create the placeAbilities placeholder
+				//First create the div to hold the ability info
+				HtmlGenericControl divAbilities = new HtmlGenericControl("div");
+				divAbilities.ID = "AbilityInfo";
+				divAbilities.Attributes.Add("class", "section");
+
+				//List the section title
+				HtmlGenericControl titleAbility = new HtmlGenericControl("h2");
+				titleAbility.InnerText = "Ability Breakdown";
+				titleAbility.Attributes.Add("class", "sectionTitle");
+				divAbilities.Controls.Add(titleAbility);
+
+				//Create the Ability Table
+				Table abilitiesTable = createAbilitiesTable(characterBuild.Character.Abilities.ToList<Ability>(), characterBuild.Abilities.ToList<Ability>());
+				divAbilities.Controls.Add(abilitiesTable);
+
+				//Create the actual placeholder
+				placeAbilities.Controls.Add(divAbilities);
+
+
+				//Create the placeItems placeholder
+				//Create the div to hold the items info
+				HtmlGenericControl divItems = new HtmlGenericControl("div");
+				divItems.ID = "ItemsInfo";
+				divItems.Attributes.Add("class", "section");
+
+				//List the section title
+				HtmlGenericControl titleItem = new HtmlGenericControl("h2");
+				titleItem.InnerHtml = "Items";
+				titleItem.Attributes.Add("class", "sectionTitle");
+				divItems.Controls.Add(titleItem);
+
+				//Create the Item List
+				Table itemList = createItemsTable(characterBuild.Items.ToList<Item>());
+				divItems.Controls.Add(itemList);
+
+				//Create the actual placeholder
+				placeItems.Controls.Add(divItems);
+
 			}
-
-			this.Page.Title = characterBuild.BuildName;
-
-			//Create the HTML for placeBuildInfo
-			//First create the div to hold the info
-			HtmlGenericControl divBuildInfo = new HtmlGenericControl("div");
-			divBuildInfo.ID = "BuildInfo";
-			//divBuildInfo.Attributes.Add("class", "section");
-
-			//Get the build name
-			HtmlGenericControl titleBuildName = new HtmlGenericControl("h1");
-			titleBuildName.InnerHtml = characterBuild.BuildName;
-			divBuildInfo.Controls.Add(titleBuildName);
-
-			//Create a div to hold the image and title info
-			HtmlGenericControl divCharacter = new HtmlGenericControl("div");
-			divCharacter.Attributes.Add("class", "description");
-
-			//Then Create the image of the character
-			Image characterImage = new Image();
-			characterImage.ImageUrl = CharacterUtility.GetImagePath(characterBuild.Character.Name, CharacterUtility.ImageType.Square);
-			characterImage.AlternateText = "Icon of " + characterBuild.Character.Name;
-			characterImage.Style.Add("float", "left");
-			divCharacter.Controls.Add(characterImage);
-			
-			//Create a div to hold the description
-			HtmlGenericControl divDescription = new HtmlGenericControl("div");
-
-			//Get the character name
-			HtmlGenericControl titleCharacterName = new HtmlGenericControl("h3");
-			titleCharacterName.InnerHtml = "<i>A build for " + characterBuild.Character.Name + "</i>";
-			divDescription.Controls.Add(titleCharacterName);
-
-			//Get the username
-			HtmlGenericControl titleUsername = new HtmlGenericControl("h4");
-			titleUsername.InnerHtml = "<i>Created by " + characterBuild.UserName + "</i>";
-			divDescription.Controls.Add(titleUsername);
-
-			//Make sure everything is added
-			divCharacter.Controls.Add(divDescription);
-			divBuildInfo.Controls.Add(divCharacter);
-
-			//Create the actual placeholder
-			placeBuildInfo.Controls.Add(divBuildInfo);
-
-
-			//Create the placeAbilities placeholder
-			//First create the div to hold the ability info
-			HtmlGenericControl divAbilities = new HtmlGenericControl("div");
-			divAbilities.ID = "AbilityInfo";
-			divAbilities.Attributes.Add("class", "section");
-
-			//List the section title
-			HtmlGenericControl titleAbility = new HtmlGenericControl("h2");
-			titleAbility.InnerText = "Ability Breakdown";
-			titleAbility.Attributes.Add("class", "sectionTitle");
-			divAbilities.Controls.Add(titleAbility);
-
-			//Create the Ability Table
-			Table abilitiesTable = createAbilitiesTable(characterBuild.Character.Abilities.ToList<Ability>(), characterBuild.Abilities.ToList<Ability>());
-			divAbilities.Controls.Add(abilitiesTable);
-
-			//Create the actual placeholder
-			placeAbilities.Controls.Add(divAbilities);
-
-
-			//Create the placeItems placeholder
-			//Create the div to hold the items info
-			HtmlGenericControl divItems = new HtmlGenericControl("div");
-			divItems.ID = "ItemsInfo";
-			divItems.Attributes.Add("class", "section");
-
-			//List the section title
-			HtmlGenericControl titleItem = new HtmlGenericControl("h2");
-			titleItem.InnerHtml = "Items";
-			titleItem.Attributes.Add("class", "sectionTitle");
-			divItems.Controls.Add(titleItem);
-
-			//Create the Item List
-			Table itemList = createItemsTable(characterBuild.Items.ToList<Item>());
-			divItems.Controls.Add(itemList);
-
-			//Create the actual placeholder
-			placeItems.Controls.Add(divItems);
+			catch (Exception ex)
+			{
+				Response.Redirect("Characters.aspx");
+			}
 		}
 		else
 		{
