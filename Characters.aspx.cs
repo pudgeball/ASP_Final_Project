@@ -29,7 +29,6 @@ public partial class Characters : System.Web.UI.Page
 			string link = "ViewBuilds.aspx?ID=" + characters[i].ID;
 
 			Image charImage = new Image();
-			//charImage.ImageUrl = "Images/" + name.ToLower() +".png";
             charImage.ImageUrl = CharacterUtility.GetImagePath(name, CharacterUtility.ImageType.Square);
 			HyperLink imageLink = new HyperLink();
 			imageLink.NavigateUrl = link;
