@@ -2,83 +2,18 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <style type="text/css">
-            #content
-            {
-                background-image:url(<%=splashUrl%>);
-                background-size: 900px;
-				background-repeat: no-repeat;
-				padding-bottom: 5px;
-            }
-        
-        	#transparentBoxContainer
-			{
-				padding-top: 160px;
-				padding-bottom: 20px;
-				position: relative;
-				width: 900px;
-				
-			}
-
-			#transparentBox
-			{
-				margin: 0px 20px 20px 20px;
-				padding: 10px 30px 30px 30px;
-				background-color: rgba(0, 0, 0, 0.7);
-				z-index: 1;
-				position: relative;
-			}
-			
-			#randomBuildContainer
-			{
-			    text-align: center;
-			    width: 375px;
-			    float: left;
-			}
-			
-			#pageContent_linkToBuild
-			{
-			    text-decoration: none;
-			    margin: 0 auto;
-			    padding: 10px 0px;
-			    width: 300px;
-			    display: block;
-			    background-color: rgb(54, 23, 94);
-			    border-radius: 10px 10px;
-			    border-bottom: 3px solid rgb(123, 82, 171);
-			}
-			
-			#pageContent_linkToBuild:hover
-			{
-			    color: inherit;
-			    background-color: rgb(123, 82, 171);
-			}
-			
-			#tierContainer
-			{
-			    text-align: center;
-			    width: 375px;
-			    float: left;   
-			}
-			
-			#pageContent_tierContainerContent
-			{
-			    margin: 0 auto;
-			    width: 300px;
-			}
-			
-			#grad
-			{
-			    position: absolute;
-			    bottom: 0;
-			    left: 0;
-			    right: 0;
-			    height: 200px;
-			    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(20, 19, 18, 1) 60%, #24221F 100%);
-			    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a624221f',GradientType=0 );
-			    z-index: 0;
-			}
+        #content
+        {
+            background-image:url(<%=splashUrl%>);
+            background-size: 900px;
+	        background-repeat: no-repeat;
+	        padding-bottom: 5px;
+        }
     </style>
+
+    <link type="text/css" rel="Stylesheet" href="CSS/Default.css" />    
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="pageContent" Runat="Server">
     <div id="transparentBoxContainer">
         <div id="transparentBox">
